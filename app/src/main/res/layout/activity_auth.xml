@@ -20,72 +20,127 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center"
-        android:paddingLeft="50dp"
-        android:paddingRight="50dp"
+        android:padding="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.400">
 
         <ImageView
             android:id="@+id/headerImage"
             android:layout_width="250dp"
             android:layout_height="200dp"
-            android:layout_marginBottom="30dp"
+            android:layout_marginBottom="10dp"
             android:scaleType="fitCenter"
             android:src="@drawable/logo_ecolim_white" />
 
-        <EditText
-            android:id="@+id/inputEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/edittext_background"
-            android:hint="Correo Electrónico"
-            android:inputType="textEmailAddress"
-            android:padding="14dp"
-            android:textSize="16sp"
-            android:layout_marginBottom="12dp" />
-
-        <EditText
-            android:id="@+id/inputPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/edittext_background"
-            android:hint="Contraseña"
-            android:inputType="textPassword"
-            android:padding="14dp"
-            android:textSize="16sp"
-            android:layout_marginBottom="20dp" />
-
-        <LinearLayout
+        <TextView
+            android:id="@+id/subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="Registra y gestiona residuos de forma eficiente y segura."
+            android:textSize="16sp"
+            android:textColor="@android:color/darker_gray"
+            android:gravity="center"
+            android:layout_marginBottom="20dp"/>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:radius="30dp"
+            android:elevation="5dp"
+            android:layout_marginBottom="10dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/inputEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:hint="Correo Electrónico"
+                    android:inputType="textEmailAddress"
+                    android:padding="14dp"
+                    android:textSize="16sp"
+                    android:layout_marginEnd="40dp"/>
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="10dp"
+                    android:src="@android:drawable/ic_dialog_email" />
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:radius="30dp"
+            android:elevation="5dp"
+            android:layout_marginBottom="20dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/inputPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:hint="Contraseña"
+                    android:inputType="textPassword"
+                    android:padding="14dp"
+                    android:textSize="16sp"
+                    android:layout_marginEnd="40dp"/>
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="10dp"
+                    android:src="@android:drawable/ic_lock_idle_lock" />
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
             android:orientation="horizontal"
             android:gravity="center">
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnLogin"
-                android:layout_width="140dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
                 android:background="@drawable/button_gradient"
                 android:text="Logeate"
                 android:textColor="@android:color/white"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:layout_marginEnd="8dp"/>
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnRegistro"
-                android:layout_width="140dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:background="@drawable/button_gradient_orange"
                 android:text="Registrate"
                 android:textColor="@android:color/white"
                 android:textSize="18sp"
-                android:layout_marginStart="10dp" />
+                android:layout_marginStart="8dp"/>
         </LinearLayout>
 
     </LinearLayout>
