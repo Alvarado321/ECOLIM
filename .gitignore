@@ -1,0 +1,34 @@
+# Gradle
+.gradle
+/build
+# Archivos generados por Android Studio
+.idea
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+*.iml
+*.ipr
+*.iws
+
+# Archivo local de propiedades específicas
+local.properties
+/local.properties
+
+# Archivos del sistema operativo
+.DS_Store
+
+# Carpeta de compilación del módulo app
+/build
+/app/build
+
+# Capturas y logs innecesarios
+captures/
+*.log
+
+# Otras carpetas generadas automáticamente
+out/
+.externalNativeBuild
+.cxx
