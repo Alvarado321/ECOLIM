@@ -5,6 +5,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ResiduoDAO {
 
     private DBHelper dbHelper;
@@ -47,6 +50,22 @@ public class ResiduoDAO {
         }
 
         return idEmpleado;
+    }
+
+    public List<String> obtenerListaNombresEmpleados() {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        List<String> empleados = new ArrayList<>();
+
+        Cursor cursor = db.rawQuery("SELECT nombre FROM " + DBHelper.TABLA_EMPLEADO, null);
+
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                empleados.add(cursor.getString(cursor.getColumnIndexOrThrow("nombre")));
+            }
+            cursor.close();
+        }
+
+        return empleados;
     }
 
     public int obtenerIdResiduo(String tipoResiduo){

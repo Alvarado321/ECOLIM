@@ -1,5 +1,6 @@
 package com.example.ecolim;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
@@ -60,7 +61,7 @@ public class Registro_Residuo extends AppCompatActivity {
     }
 
     void cargarEmpleados(){
-        List<String> empleados = Arrays.asList("Empleado actual", "Empleado 2", "Empleado 3");
+        List<String> empleados = residuoDAO.obtenerListaNombresEmpleados();
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, empleados);
         spinnerEmpleado.setAdapter(adapter);
         spinnerEmpleado.setSelection(adapter.getPosition(usuarioAutenticado));
@@ -82,6 +83,6 @@ public class Registro_Residuo extends AppCompatActivity {
                 empleado, tipoResiduo, cantidadResiduo, observaciones, fechaHora);
 
         Toast.makeText(this, exito ? "Registrado correctamente" : "Error al registrar", Toast.LENGTH_SHORT).show();
-        if(exito) finish();
+        if(exito) startActivity(new Intent(this, Registro_Residuo.class));
     }
 }
