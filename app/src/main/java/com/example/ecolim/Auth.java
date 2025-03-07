@@ -2,6 +2,7 @@ package com.example.ecolim;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -77,6 +78,10 @@ public class Auth extends AppCompatActivity {
 
         if(cursor.moveToFirst()) {
             Toast.makeText(this, "Inicio exitoso", Toast.LENGTH_SHORT).show();
+            SharedPreferences.Editor editor = getSharedPreferences("UserData", MODE_PRIVATE).edit();
+            editor.putString("loggedUserEmail", email);
+            editor.apply();
+
             startActivity(new Intent(this, Inicio.class));
             finish();
         } else {

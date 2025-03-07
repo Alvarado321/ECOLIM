@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -12,6 +14,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Ecolim"
         tools:targetApi="31">
+        <activity
+            android:name=".Configuracion"
+            android:exported="false" />
+        <activity
+            android:name=".Conocenos"
+            android:exported="false" />
+        <activity
+            android:name=".Google_Maps"
+            android:exported="false" />
         <activity
             android:name=".Registro_R_Reportes"
             android:exported="false" />
@@ -37,5 +48,5 @@
             </intent-filter>
         </activity>
     </application>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
 </manifest>

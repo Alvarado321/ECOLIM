@@ -10,6 +10,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.ecolim.Auth;
+import com.example.ecolim.Configuracion;
+import com.example.ecolim.Conocenos;
+import com.example.ecolim.Google_Maps;
 import com.example.ecolim.Inicio;
 import com.example.ecolim.R;
 import com.example.ecolim.Registro_R_Agregado;
@@ -40,6 +43,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_inicio) {
+            Toast.makeText(this, "Se presionó el icono de Inicio", Toast.LENGTH_LONG).show();
             startActivity(new Intent(this, Inicio.class));
             return true;
         } else if (id == R.id.action_agregar) {
@@ -52,13 +56,13 @@ public abstract class BaseActivity extends AppCompatActivity {
             startActivity(new Intent(this, Registro_R_Reportes.class));
             return true;
         } else if (id == R.id.action_conoceme) {
-            Toast.makeText(this, "Se presionó el icono de Conóceme", Toast.LENGTH_LONG).show();
+            startActivity(new Intent(this, Conocenos.class));
             return true;
         } else if (id == R.id.action_proyectos) {
-            Toast.makeText(this, "Se presionó la opción de Proyectos", Toast.LENGTH_LONG).show();
+            startActivity(new Intent(this, Google_Maps.class));
             return true;
         } else if (id == R.id.action_configuracion) {
-            Toast.makeText(this, "Se presionó la opción de Configuración", Toast.LENGTH_LONG).show();
+            startActivity(new Intent(this, Configuracion.class));
             return true;
         } else if (id == R.id.action_salir) {
             startActivity(new Intent(this, Auth.class));
