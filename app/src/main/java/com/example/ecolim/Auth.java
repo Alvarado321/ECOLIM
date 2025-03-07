@@ -15,7 +15,7 @@ import com.example.ecolim.helpers.DBHelper;
 
 public class Auth extends AppCompatActivity {
 
-    EditText inputEmail, inputPassword;
+    EditText inputNombre, inputEmail, inputPassword;
     Button btnLogin, btnRegistro;
     DBHelper dbHelper;
 
@@ -26,6 +26,7 @@ public class Auth extends AppCompatActivity {
 
         dbHelper = new DBHelper(this);
 
+        inputNombre = findViewById(R.id.inputNombre);
         inputEmail = findViewById(R.id.inputEmail);
         inputPassword = findViewById(R.id.inputPassword);
         btnLogin = findViewById(R.id.btnLogin);
@@ -36,6 +37,7 @@ public class Auth extends AppCompatActivity {
     }
 
     private void registrarUsuario() {
+        String nombre = inputNombre.getText().toString().trim();
         String email = inputEmail.getText().toString().trim();
         String password = inputPassword.getText().toString().trim();
 
@@ -46,9 +48,9 @@ public class Auth extends AppCompatActivity {
 
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues valores = new ContentValues();
+        valores.put("nombre", nombre);
         valores.put("email", email);
         valores.put("password", password);
-        valores.put("nombre", "Empleado");
 
         long resultado = db.insert(DBHelper.TABLA_EMPLEADO, null, valores);
 
