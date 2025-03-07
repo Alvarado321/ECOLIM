@@ -13,7 +13,7 @@
         android:theme="@style/Theme.Ecolim"
         tools:targetApi="31">
         <activity
-            android:name=".helpers.Toolbar"
+            android:name=".Toolbar"
             android:exported="false" />
         <activity
             android:name=".Inicio"

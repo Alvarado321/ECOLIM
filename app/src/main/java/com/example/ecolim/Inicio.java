@@ -10,7 +10,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import java.util.Arrays;
 import java.util.List;
 
-public class Inicio extends AppCompatActivity {
+public class Inicio extends Toolbar {
 
     ViewPager2 viewPagerImagenes;
     LinearLayout layoutPuntos;
@@ -24,6 +24,7 @@ public class Inicio extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inicio);
+        setupToolbar();
 
         viewPagerImagenes = findViewById(R.id.viewPagerImagenes);
         layoutPuntos = findViewById(R.id.layoutPuntos);
