@@ -5,6 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/auth_background_gradient"
     tools:context=".Google_Maps">
 
     <!-- Toolbar Superior -->
@@ -17,17 +18,21 @@
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@android:drawable/ic_menu_revert"
         app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
-        android:background="@drawable/background_toolbar"  />
+        android:background="@drawable/background_toolbar"/>
 
     <!-- WebView que mostrará el mapa -->
     <WebView
         android:id="@+id/webView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:layout_constraintBottom_toTopOf="@id/infoCard"/>
+        android:layout_marginTop="-10dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@id/infoCard"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
-    <!-- Tarjeta de información de la empresa -->
+    <!-- Tarjeta de información de la empresa con el FAB adentro -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/infoCard"
         android:layout_width="match_parent"
@@ -35,7 +40,7 @@
         android:layout_margin="16dp"
         app:cardElevation="8dp"
         app:cardCornerRadius="12dp"
-        app:layout_constraintBottom_toTopOf="@id/fabCenter"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -43,37 +48,45 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="16dp"
-            android:orientation="vertical">
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
-            <TextView
-                android:id="@+id/txtEmpresaNombre"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="EXPOMALL"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:textColor="@android:color/black"/>
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/txtEmpresaDireccion"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Ubicación: Trujillo, Perú"
-                android:textSize="14sp"
-                android:textColor="@android:color/darker_gray"/>
+                <TextView
+                    android:id="@+id/txtEmpresaNombre"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="EXPOMALL"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:textColor="@android:color/black"/>
+
+                <TextView
+                    android:id="@+id/txtEmpresaDireccion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ubicación: Trujillo, Perú"
+                    android:textSize="14sp"
+                    android:textColor="@android:color/darker_gray"/>
+            </LinearLayout>
+
+            <!-- FAB dentro de la tarjeta -->
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fabCenter"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="clip_horizontal|center|clip_vertical"
+                android:layout_marginStart="16dp"
+                android:contentDescription="Centrar en mapa"
+                android:src="@drawable/google_maps_icon_indicador"
+                app:backgroundTint="#C7F0BB93"
+                app:tint="@color/white" />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
-
-    <!-- Botón flotante para centrar la vista en la empresa -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabCenter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:contentDescription="TODO"
-        android:src="@android:drawable/ic_dialog_map"
-        app:backgroundTint="#009688"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
