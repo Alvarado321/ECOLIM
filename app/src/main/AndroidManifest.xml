@@ -13,7 +13,13 @@
         android:theme="@style/Theme.Ecolim"
         tools:targetApi="31">
         <activity
-            android:name=".Registro_Residuo_Agregado"
+            android:name=".Registro_R_Reportes"
+            android:exported="false" />
+        <activity
+            android:name=".Registro_R_Monitoreo"
+            android:exported="false" />
+        <activity
+            android:name=".Registro_R_Agregado"
             android:exported="false" />
         <activity
             android:name=".Toolbar"

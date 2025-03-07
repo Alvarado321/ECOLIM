@@ -39,6 +39,17 @@ public class DBHelper extends SQLiteOpenHelper {
                 "observaciones TEXT," +
                 "FOREIGN KEY(idEmpleado) REFERENCES empleados(idEmpleado)," +
                 "FOREIGN KEY(idResiduo) REFERENCES residuos(idResiduo))");
+
+        insertarDatosIniciales(db);
+    }
+
+    void insertarDatosIniciales(SQLiteDatabase db) {
+        db.execSQL("INSERT INTO residuos (nombre, descripcion) VALUES ('Plástico', 'Residuos plásticos reciclables')");
+        db.execSQL("INSERT INTO residuos (nombre, descripcion) VALUES ('Vidrio', 'Residuos de vidrio reciclables')");
+        db.execSQL("INSERT INTO residuos (nombre, descripcion) VALUES ('Metal', 'Residuos metálicos reciclables')");
+        db.execSQL("INSERT INTO residuos (nombre, descripcion) VALUES ('Orgánico', 'Residuos orgánicos biodegradables')");
+        db.execSQL("INSERT INTO residuos (nombre, descripcion) VALUES ('Papel', 'Residuos de papel reciclable')");
+        db.execSQL("INSERT INTO residuos (nombre, descripcion) VALUES ('Electrónico', 'Residuos electrónicos reciclables')");
     }
 
     @Override

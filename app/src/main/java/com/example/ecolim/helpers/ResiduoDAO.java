@@ -5,6 +5,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.example.ecolim.Registro_R_Monitoreo;
+import com.example.ecolim.models.RegistroResiduo;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,22 +71,77 @@ public class ResiduoDAO {
         return empleados;
     }
 
-    public int obtenerIdResiduo(String tipoResiduo){
-        switch (tipoResiduo){
-            case "Plástico":
-                return 1;
-            case "Vidrio":
-                return 2;
-            case "Metal":
-                return 3;
-            case "Orgánico":
-                return 4;
-            case "Papel":
-                return 5;
-            case "Electrónico":
-                return 6;
-            default:
-                return 0;
+    public int obtenerIdResiduo(String nombreResiduo) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        int idResiduo = -1;
+
+        Cursor cursor = db.rawQuery("SELECT idResiduo FROM residuos WHERE nombre = ?", new String[]{nombreResiduo});
+
+        if (cursor.moveToFirst()) {
+            idResiduo = cursor.getInt(cursor.getColumnIndexOrThrow("idResiduo"));
         }
+        cursor.close();
+
+        return idResiduo;
+    }
+
+    public int obtenerTotalRegistros() {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM " + DBHelper.TABLA_REGISTRO, null);
+        cursor.moveToFirst();
+        int total = cursor.getInt(0);
+        cursor.close();
+        return total;
+    }
+
+    public double obtenerCantidadTotal() {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT SUM(cantidad) FROM " + DBHelper.TABLA_REGISTRO, null);
+        cursor.moveToFirst();
+        double total = cursor.getDouble(0);
+        cursor.close();
+        return total;
+    }
+
+    public String obtenerResiduoMasComun() {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT r.nombre FROM residuos r JOIN registro_residuos rg ON r.idResiduo = rg.idResiduo GROUP BY rg.idResiduo ORDER BY COUNT(rg.idResiduo) DESC LIMIT 1", null);
+        if (cursor.moveToFirst()) {
+            String tipo = cursor.getString(0);
+            cursor.close();
+            return tipo;
+        }
+        cursor.close();
+        return "Ninguno";
+    }
+
+    public List<RegistroResiduo> obtenerTodosRegistros() {
+        List<RegistroResiduo> registros = new ArrayList<>();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        String query = "SELECT e.nombre AS nombreEmpleado, \n" +
+                "r.nombre AS nombreResiduo, \n" +
+                "rg.cantidad, \n" +
+                "rg.fechaRegistro, \n" +
+                "rg.observaciones\n" +
+                "FROM registro_residuos rg\n" +
+                "JOIN empleados e ON rg.idEmpleado = e.idEmpleado\n" +
+                "JOIN residuos r ON rg.idResiduo = r.idResiduo\n" +
+                "ORDER BY rg.fechaRegistro DESC";
+
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            do {
+                registros.add(new RegistroResiduo(
+                        cursor.getString(cursor.getColumnIndexOrThrow("nombreEmpleado")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("nombreResiduo")),
+                        cursor.getDouble(cursor.getColumnIndexOrThrow("cantidad")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("fechaRegistro")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("observaciones")) == null ? "Sin observaciones" : cursor.getString(cursor.getColumnIndexOrThrow("observaciones"))
+                ));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return registros;
     }
 }
