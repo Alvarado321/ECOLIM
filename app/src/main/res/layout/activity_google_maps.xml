@@ -7,4 +7,73 @@
     android:layout_height="match_parent"
     tools:context=".Google_Maps">
 
+    <!-- Toolbar Superior -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="74dp"
+        android:title="Ubicación de La Empresa X"
+        android:titleTextColor="@android:color/white"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@android:drawable/ic_menu_revert"
+        app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
+        android:background="@drawable/background_toolbar"  />
+
+    <!-- WebView que mostrará el mapa -->
+    <WebView
+        android:id="@+id/webView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintBottom_toTopOf="@id/infoCard"/>
+
+    <!-- Tarjeta de información de la empresa -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/infoCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:cardElevation="8dp"
+        app:cardCornerRadius="12dp"
+        app:layout_constraintBottom_toTopOf="@id/fabCenter"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txtEmpresaNombre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="EXPOMALL"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="@android:color/black"/>
+
+            <TextView
+                android:id="@+id/txtEmpresaDireccion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ubicación: Trujillo, Perú"
+                android:textSize="14sp"
+                android:textColor="@android:color/darker_gray"/>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Botón flotante para centrar la vista en la empresa -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabCenter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:contentDescription="TODO"
+        android:src="@android:drawable/ic_dialog_map"
+        app:backgroundTint="#009688"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
