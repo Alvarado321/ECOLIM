@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/auth_background_gradient"
-    tools:context=".Registro_Residuo">
+    tools:context=".Registro_Residuo_Agregado">
 
     <LinearLayout
         android:layout_width="match_parent"
