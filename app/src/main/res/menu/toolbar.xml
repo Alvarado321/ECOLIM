@@ -11,18 +11,29 @@
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/action_conoceme"
-        android:title="@string/menu_conoceme"
-        app:showAsAction="never" />
+        android:id="@+id/action_otros"
+        android:title="@string/menu_otros"
+        app:showAsAction="never">
+        <menu>
+            <item
+                android:id="@+id/action_agregar"
+                android:title="@string/menu_otros_agregar"/>
+            <item
+                android:id="@+id/action_listar"
+                android:title="@string/menu_otros_monitoreo"/>
+            <item
+                android:id="@+id/action_reportes"
+                android:title="@string/menu_otros_reportes"/>
+        </menu>
+    </item>
 
     <item
         android:id="@+id/action_proyectos"
         android:title="@string/menu_proyectos"
         app:showAsAction="never" />
-
     <item
-        android:id="@+id/action_otros"
-        android:title="@string/menu_otros"
+        android:id="@+id/action_conoceme"
+        android:title="@string/menu_conoceme"
         app:showAsAction="never" />
 
     <item

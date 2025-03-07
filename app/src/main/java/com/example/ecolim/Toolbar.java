@@ -30,9 +30,23 @@ public class Toolbar extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_inicio) {
-            Toast.makeText(this, "Se presionó el icono de Inicio", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Ingresaste a Inicio", Toast.LENGTH_LONG).show();
             startActivity(new Intent(this, Inicio.class));
             return true;
+
+        } else if (id == R.id.action_agregar) {
+            Toast.makeText(this, "Ingresaste a registro de residuos", Toast.LENGTH_LONG).show();
+            startActivity(new Intent(this, Registro_R_Agregado.class));
+            return true;
+        } else if (id == R.id.action_listar) {
+            Toast.makeText(this, "Ingresaste a monitoreo de residuos", Toast.LENGTH_LONG).show();
+            startActivity(new Intent(this, Registro_R_Monitoreo.class));
+            return true;
+        } else if (id == R.id.action_reportes) {
+            Toast.makeText(this, "Ingresaste a reportes de residuos", Toast.LENGTH_LONG).show();
+            startActivity(new Intent(this, Registro_R_Reportes.class));
+            return true;
+
         } else if (id == R.id.action_conoceme) {
             Toast.makeText(this, "Se presionó el icono de Conoceme", Toast.LENGTH_LONG).show();
             startActivity(new Intent(this, Inicio.class));
@@ -40,10 +54,6 @@ public class Toolbar extends AppCompatActivity {
         } else if (id == R.id.action_proyectos) {
             Toast.makeText(this, "Se presionó la opción de Proyectos", Toast.LENGTH_LONG).show();
             startActivity(new Intent(this, Inicio.class));
-            return true;
-        } else if (id == R.id.action_otros) {
-            Toast.makeText(this, "Se presionó la opción de Otros recursos", Toast.LENGTH_LONG).show();
-            startActivity(new Intent(this, Registro_R_Agregado.class));
             return true;
         } else if (id == R.id.action_configuracion) {
             Toast.makeText(this, "Se presionó la opción de Configuración", Toast.LENGTH_LONG).show();
