@@ -16,7 +16,7 @@ public class Inicio extends AppCompatActivity {
     LinearLayout layoutPuntos;
     Inicio_carrusel adapter;
 
-    List<Integer> imagenes = Arrays.asList(R.drawable.inicio_img1, R.drawable.inicio_img1, R.drawable.inicio_img1);
+    List<Integer> imagenes = Arrays.asList(R.drawable.inicio_img1, R.drawable.inicio_img2, R.drawable.inicio_img3);
     List<String> titulos = Arrays.asList("Recicla con ECOLIM", "Gestiona eficientemente", "Cuidado Ambiental");
     List<String> subtitulos = Arrays.asList("Ayudamos al planeta", "Monitoreo en tiempo real", "Responsabilidad ecológica");
 
