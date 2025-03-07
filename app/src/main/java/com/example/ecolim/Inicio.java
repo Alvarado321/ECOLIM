@@ -1,15 +1,18 @@
 package com.example.ecolim;
 
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import androidx.core.content.ContextCompat;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.ecolim.menu.BaseActivity;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -18,6 +21,7 @@ public class Inicio extends BaseActivity {
     ViewPager2 viewPagerImagenes;
     LinearLayout layoutPuntos;
     Inicio_carrusel adapter;
+    ListView listViewRegistrados;
 
     List<Integer> imagenes = Arrays.asList(R.drawable.inicio_img1, R.drawable.inicio_img2, R.drawable.inicio_img3);
     List<String> titulos = Arrays.asList("Recicla con ECOLIM", "Gestiona eficientemente", "Cuidado Ambiental");
@@ -73,5 +77,16 @@ public class Inicio extends BaseActivity {
                 imageView.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.inicio_punto_inactivo));
             }
         }
+    }
+
+    void configurarListaRegistrados() {
+        List<String> registrados = new ArrayList<>();
+        registrados.add("Juan Pérez - Plástico - 07/03/2025");
+        registrados.add("Ana Gómez - Vidrio - 06/03/2025");
+        registrados.add("Carlos Méndez - Metal - 05/03/2025");
+        registrados.add("Luisa Rodríguez - Papel - 04/03/2025");
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, registrados);
+        listViewRegistrados.setAdapter(adapter);
     }
 }
