@@ -1,10 +1,15 @@
 package com.example.ecolim;
 
 import android.app.DatePickerDialog;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.pdf.PdfDocument;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.Environment;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,9 +23,14 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -34,6 +44,7 @@ public class Registro_R_Reportes extends BaseActivity {
     private ReporteResiduoAdapter adapter;
     private String fechaInicio, fechaFin;
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("MMM d, yyyy h:mm:ss a", Locale.US);
+    private Button btnExportarPDF;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +70,9 @@ public class Registro_R_Reportes extends BaseActivity {
         btnFechaFin.setOnClickListener(v -> seleccionarFecha(false));
 
         cargarReporteInicial();
+
+        btnExportarPDF = findViewById(R.id.btnExportarPDF);
+        btnExportarPDF.setOnClickListener(v -> exportarReportePDF());
     }
 
     void cargarReporteInicial() {
@@ -126,5 +140,66 @@ public class Registro_R_Reportes extends BaseActivity {
         barChart.setData(data);
         barChart.animateY(1500);
         barChart.invalidate();
+    }
+
+    private void exportarReportePDF() {
+        List<ReporteResiduo> datos;
+
+        if (fechaInicio != null && fechaFin != null) {
+            datos = residuoDAO.obtenerReportesPorFecha(fechaInicio, fechaFin);
+        } else {
+            datos = residuoDAO.obtenerReportePorTipo(); // Todos los registros
+        }
+
+        if (datos.isEmpty()) {
+            Toast.makeText(this, "No hay datos para exportar", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy_HHmmss", Locale.getDefault());
+        String nombreArchivo = "Reporte_" + sdf.format(new Date()) + ".pdf";
+        generarPDF(datos, nombreArchivo);
+    }
+
+    private void generarPDF(List<ReporteResiduo> datos, String nombreArchivo) {
+        PdfDocument documento = new PdfDocument();
+        PdfDocument.PageInfo paginaInfo = new PdfDocument.PageInfo.Builder(595, 842, 1).create();
+        PdfDocument.Page pagina = documento.startPage(paginaInfo);
+        Canvas canvas = pagina.getCanvas();
+
+        Paint paint = new Paint();
+        paint.setTextSize(12f);
+        paint.setColor(Color.BLACK);
+
+        int y = 80;
+
+        canvas.drawText("Reporte de Residuos", 50, y, paint);
+        y += 30;
+
+        canvas.drawText("Tipo de Residuo", 50, y, paint);
+        canvas.drawText("Cantidad (kg)", 400, y, paint);
+        y += 20;
+
+        for (ReporteResiduo item : datos) {
+            canvas.drawText(item.tipoResiduo, 50, y, paint);
+            canvas.drawText(String.format("%.2f", item.cantidadTotal), 400, y, paint);
+            y += 15;
+        }
+
+        documento.finishPage(pagina);
+
+        File directorio = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "Ecolim");
+        if (!directorio.exists()) directorio.mkdirs();
+
+        File archivo = new File(directorio, nombreArchivo);
+        try {
+            documento.writeTo(new FileOutputStream(archivo));
+            Toast.makeText(this, "PDF guardado en: " + archivo.getPath(), Toast.LENGTH_LONG).show();
+        } catch (IOException e) {
+            Toast.makeText(this, "Error al guardar PDF", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+
+        documento.close();
     }
 }

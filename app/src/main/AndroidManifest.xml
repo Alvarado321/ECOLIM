@@ -13,9 +13,6 @@
         android:theme="@style/Theme.Ecolim"
         tools:targetApi="31">
         <activity
-            android:name=".reportes_personalizados"
-            android:exported="false" />
-        <activity
             android:name=".Registro_R_Reportes"
             android:exported="false" />
         <activity
@@ -25,7 +22,7 @@
             android:name=".Registro_R_Agregado"
             android:exported="false" />
         <activity
-            android:name=".menu.Toolbar"
+            android:name=".menu.BaseActivity"
             android:exported="false" />
         <activity
             android:name=".Inicio"
@@ -40,5 +37,5 @@
             </intent-filter>
         </activity>
     </application>
-
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 </manifest>
