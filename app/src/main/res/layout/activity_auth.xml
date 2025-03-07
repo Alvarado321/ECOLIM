@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_gradient"
+    android:background="@drawable/auth_background_gradient"
     tools:context=".Auth">
 
     <ImageView
@@ -13,7 +13,7 @@
         android:layout_width="500dp"
         android:layout_height="wrap_content"
         android:scaleType="fitCenter"
-        android:src="@drawable/background_silueta"
+        android:src="@drawable/auth_background_silueta"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,7 +37,7 @@
             android:layout_height="200dp"
             android:layout_marginBottom="10dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/logo_ecolim_white" />
+            android:src="@drawable/logo_ecolim" />
 
         <TextView
             android:id="@+id/subtitle"
@@ -125,7 +125,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:background="@drawable/button_gradient"
+                android:background="@drawable/auth_btn_gradient_celeste"
                 android:text="Logeate"
                 android:textColor="@android:color/white"
                 android:textSize="18sp"
@@ -136,7 +136,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:background="@drawable/button_gradient_orange"
+                android:background="@drawable/auth_btn_gradient_naranja"
                 android:text="Registrate"
                 android:textColor="@android:color/white"
                 android:textSize="18sp"
