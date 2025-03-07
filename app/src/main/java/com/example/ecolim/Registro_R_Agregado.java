@@ -9,7 +9,7 @@ import com.example.ecolim.helpers.ResiduoDAO;
 import java.util.List;
 import java.util.Arrays;
 
-public class Registro_Residuo_Agregado extends AppCompatActivity {
+public class Registro_R_Agregado extends AppCompatActivity {
 
     Spinner spinnerEmpleado, spinnerTipoResiduo;
     EditText editTextCantidad, editObservaciones;
@@ -29,7 +29,7 @@ public class Registro_Residuo_Agregado extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_registro_residuo_agregado);
+        setContentView(R.layout.activity_registro_r_agregado);
 
         spinnerEmpleado = findViewById(R.id.spinnerEmpleado);
         spinnerTipoResiduo = findViewById(R.id.spinnerTipoResiduo);
@@ -83,6 +83,6 @@ public class Registro_Residuo_Agregado extends AppCompatActivity {
                 empleado, tipoResiduo, cantidadResiduo, observaciones, fechaHora);
 
         Toast.makeText(this, exito ? "Registrado correctamente" : "Error al registrar", Toast.LENGTH_SHORT).show();
-        if(exito) startActivity(new Intent(this, Registro_Residuo_Agregado.class));
+        if(exito) startActivity(new Intent(this, Registro_R_Agregado.class));
     }
 }

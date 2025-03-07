@@ -43,7 +43,7 @@ public class Toolbar extends AppCompatActivity {
             return true;
         } else if (id == R.id.action_otros) {
             Toast.makeText(this, "Se presionó la opción de Otros recursos", Toast.LENGTH_LONG).show();
-            startActivity(new Intent(this, Registro_Residuo_Agregado.class));
+            startActivity(new Intent(this, Registro_R_Agregado.class));
             return true;
         } else if (id == R.id.action_configuracion) {
             Toast.makeText(this, "Se presionó la opción de Configuración", Toast.LENGTH_LONG).show();
