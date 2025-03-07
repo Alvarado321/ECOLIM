@@ -4,13 +4,16 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.view.ViewGroup;
-import androidx.appcompat.app.AppCompatActivity;
+
 import androidx.core.content.ContextCompat;
 import androidx.viewpager2.widget.ViewPager2;
+
+import com.example.ecolim.menu.BaseActivity;
+
 import java.util.Arrays;
 import java.util.List;
 
-public class Inicio extends Toolbar {
+public class Inicio extends BaseActivity {
 
     ViewPager2 viewPagerImagenes;
     LinearLayout layoutPuntos;
@@ -24,7 +27,7 @@ public class Inicio extends Toolbar {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inicio);
-        setupToolbar();
+        configurarToolbar("Inicio", true);
 
         viewPagerImagenes = findViewById(R.id.viewPagerImagenes);
         layoutPuntos = findViewById(R.id.layoutPuntos);

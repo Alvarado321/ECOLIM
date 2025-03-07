@@ -3,17 +3,17 @@ package com.example.ecolim;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ecolim.adapters.RegistroResiduoAdapter;
 import com.example.ecolim.helpers.ResiduoDAO;
+import com.example.ecolim.menu.BaseActivity;
 import com.example.ecolim.models.RegistroResiduo;
 
 import java.util.List;
 
-public class Registro_R_Monitoreo extends Toolbar {
+public class Registro_R_Monitoreo extends BaseActivity {
 
     RecyclerView recyclerView;
     RegistroResiduoAdapter adapter;
@@ -25,7 +25,7 @@ public class Registro_R_Monitoreo extends Toolbar {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro_r_monitoreo);
-        setupToolbar();
+        configurarToolbar("Monitoreo y Gestión", true);
 
         recyclerView = findViewById(R.id.recyclerMonitoreo);
         txtTotalRegistros = findViewById(R.id.txtTotalRegistros);

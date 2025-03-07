@@ -3,13 +3,14 @@ package com.example.ecolim;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.*;
-import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.ecolim.helpers.ResiduoDAO;
+import com.example.ecolim.menu.BaseActivity;
 
 import java.util.List;
 import java.util.Arrays;
 
-public class Registro_R_Agregado extends Toolbar {
+public class Registro_R_Agregado extends BaseActivity {
 
     Spinner spinnerEmpleado, spinnerTipoResiduo;
     EditText editTextCantidad, editObservaciones;
@@ -30,7 +31,7 @@ public class Registro_R_Agregado extends Toolbar {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro_r_agregado);
-        setupToolbar();
+        configurarToolbar("Agregado de Residuos", true);
 
         spinnerEmpleado = findViewById(R.id.spinnerEmpleado);
         spinnerTipoResiduo = findViewById(R.id.spinnerTipoResiduo);

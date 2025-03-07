@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.example.ecolim.Registro_R_Monitoreo;
 import com.example.ecolim.models.RegistroResiduo;
+import com.example.ecolim.models.ReporteResiduo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -143,5 +144,53 @@ public class ResiduoDAO {
         }
         cursor.close();
         return registros;
+    }
+
+    public List<ReporteResiduo> obtenerReportePorTipo() {
+        List<ReporteResiduo> reportes = new ArrayList<>();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        String query = "SELECT r.nombre, SUM(rg.cantidad) as cantidadTotal " +
+                "FROM registro_residuos rg " +
+                "JOIN residuos r ON rg.idResiduo = r.idResiduo " +
+                "WHERE rg.fechaRegistro >= ? AND rg.fechaRegistro <= ? " +
+                "GROUP BY r.nombre";
+
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            do {
+                reportes.add(new ReporteResiduo(
+                        cursor.getString(cursor.getColumnIndexOrThrow("nombre")),
+                        cursor.getDouble(cursor.getColumnIndexOrThrow("cantidadTotal"))
+                ));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return reportes;
+    }
+
+    public List<ReporteResiduo> obtenerReportesPorFecha(String fechaInicio, String fechaFin) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        List<ReporteResiduo> reportes = new ArrayList<>();
+
+        String query = "SELECT r.nombre, SUM(rg.cantidad) as cantidadTotal " +
+                "FROM registro_residuos rg " +
+                "JOIN residuos r ON rg.idResiduo = r.idResiduo " +
+                "WHERE rg.fechaRegistro >= ? AND rg.fechaRegistro <= ? " +
+                "GROUP BY rg.idResiduo";
+
+        Cursor cursor = db.rawQuery(query, new String[]{fechaInicio, fechaFin});
+
+        if (cursor.moveToFirst()) {
+            do {
+                reportes.add(new ReporteResiduo(
+                        cursor.getString(0),
+                        cursor.getDouble(1)
+                ));
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        return reportes;
     }
 }
