@@ -42,7 +42,7 @@ public class Auth extends AppCompatActivity {
         String email = inputEmail.getText().toString().trim();
         String password = inputPassword.getText().toString().trim();
 
-        if(email.isEmpty() || password.isEmpty()) {
+        if(nombre.isEmpty() || email.isEmpty() || password.isEmpty()) {
             Toast.makeText(this, "Completa todos los campos", Toast.LENGTH_SHORT).show();
             return;
         }
