@@ -83,7 +83,7 @@ public class Registro_R_Agregado extends BaseActivity {
         double cantidadResiduo = Double.parseDouble(editTextCantidad.getText().toString());
         String observaciones = editObservaciones.getText().toString();
 
-        SimpleDateFormat formatoSQLite = new SimpleDateFormat("", Locale.getDefault());
+        SimpleDateFormat formatoSQLite = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         String fechaHora = formatoSQLite.format(new Date());
 
         boolean exito = residuoDAO.insertarRegistroResiduo(
