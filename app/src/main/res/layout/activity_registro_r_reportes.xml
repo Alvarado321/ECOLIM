@@ -54,6 +54,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:paddingTop="10dp"
+                    android:paddingLeft="5dp"
                     android:weightSum="2">
 
                     <Button
@@ -83,6 +84,14 @@
                     android:paddingTop="10dp"
                     android:weightSum="2">
 
+                    <Button
+                        android:id="@+id/btnFechaFin"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:layout_weight="1"
+                        android:text="Fecha Final" />
+
                     <TextView
                         android:id="@+id/txtFechaFin"
                         android:layout_width="80dp"
@@ -92,14 +101,6 @@
                         android:textAlignment="center"
                         android:textSize="14sp"
                         android:textStyle="bold" />
-
-                    <Button
-                        android:id="@+id/btnFechaFin"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:layout_weight="1"
-                        android:text="Fecha Final" />
 
                 </LinearLayout>
 
