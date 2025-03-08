@@ -12,6 +12,7 @@ import com.example.ecolim.R;
 import com.example.ecolim.models.RegistroResiduo;
 
 import java.util.List;
+import java.util.Locale;
 
 public class RegistroResiduoAdapter extends RecyclerView.Adapter<RegistroResiduoAdapter.ViewHolder> {
 
