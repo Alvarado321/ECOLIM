@@ -4,15 +4,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.ecolim.R;
 import com.example.ecolim.models.RegistroResiduo;
-
 import java.util.List;
-import java.util.Locale;
 
 public class RegistroResiduoAdapter extends RecyclerView.Adapter<RegistroResiduoAdapter.ViewHolder> {
 
@@ -42,6 +38,12 @@ public class RegistroResiduoAdapter extends RecyclerView.Adapter<RegistroResiduo
     @Override
     public int getItemCount() {
         return listaRegistros.size();
+    }
+
+    public void setData(List<RegistroResiduo> nuevaLista) {
+        this.listaRegistros.clear();
+        this.listaRegistros.addAll(nuevaLista);
+        notifyDataSetChanged();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

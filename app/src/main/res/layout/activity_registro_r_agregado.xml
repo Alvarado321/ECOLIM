@@ -28,6 +28,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="#81D4FA"
                 android:orientation="vertical"
                 android:padding="16dp">
 
@@ -35,8 +36,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="Registrar Residuo"
-                    android:textColor="@color/black"
+                    android:text="RESIDUOS DEL SISTEMA"
+                    android:textColor="@color/white"
                     android:textSize="22sp"
                     android:textStyle="bold" />
 
@@ -46,7 +47,7 @@
                     android:layout_height="180dp"
                     android:layout_gravity="center"
                     android:layout_marginVertical="12dp"
-                    android:scaleType="centerInside"
+                    android:scaleType="fitCenter"
                     android:src="@drawable/ic_launcher_foreground" />
 
             </LinearLayout>
@@ -59,7 +60,7 @@
             android:padding="10dp">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="220dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:paddingRight="10dp">
@@ -67,6 +68,7 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    app:cardBackgroundColor="#FFF9C4"
                     app:cardCornerRadius="10dp">
 
                     <LinearLayout
@@ -80,24 +82,26 @@
                             android:id="@+id/textView9"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp"
+                            android:paddingTop="10dp"
+                            android:paddingBottom="10dp"
                             android:text="Recordatorio"
                             android:textAlignment="center"
                             android:textSize="16dp"
-                            android:textStyle="bold"
-                            android:paddingTop="10dp"
-                            android:paddingBottom="10dp"
-                            android:layout_marginBottom="5dp"/>
+                            android:textStyle="bold" />
 
                         <Spinner
                             android:id="@+id/spinnerEmpleado"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:padding="10dp" />
 
                         <Spinner
                             android:id="@+id/spinnerTipoResiduo"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp" />
+                            android:layout_marginTop="10dp"
+                            android:padding="10dp" />
 
                         <EditText
                             android:id="@+id/editTextCantidad"
@@ -130,8 +134,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:layout_marginBottom="10dp"
-                            android:text="Registrar"
                             android:background="@drawable/auth_btn_gradient_naranja"
+                            android:text="Registrar"
                             android:textColor="@android:color/white" />
                     </LinearLayout>
 
@@ -147,7 +151,8 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:cardCornerRadius="10dp" >
+                    app:cardBackgroundColor="#FFFFFF"
+                    app:cardCornerRadius="10dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -176,7 +181,8 @@
                             android:id="@+id/imageView2"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            tools:srcCompat="@drawable/registro_r_agregado_img1" />
+                            android:adjustViewBounds="false"
+                            android:src="@drawable/registro_r_agregado_img1" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 

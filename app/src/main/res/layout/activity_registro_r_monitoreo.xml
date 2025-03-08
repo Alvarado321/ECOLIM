@@ -14,6 +14,7 @@
         android:orientation="vertical"
         android:background="@drawable/auth_background_gradient">
 
+        <!-- Toolbar -->
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
@@ -21,33 +22,32 @@
             android:titleTextColor="@android:color/white"
             android:background="@drawable/background_toolbar" />
 
+        <!-- Contenedor de las 3 tarjetas (fijo en altura) -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:orientation="vertical"
-            android:padding="12dp"
-            android:weightSum="3">
+            android:padding="12dp">
 
+            <!-- Tarjeta 1 -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="140dp"
+                android:layout_height="wrap_content"
                 android:layout_margin="4dp"
-                android:layout_weight="1"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="4dp"
-                app:cardBackgroundColor="#FFFFFF">
+                app:cardBackgroundColor="#B3E5FC">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="120dp"
                     android:orientation="horizontal">
 
                     <ImageView
                         android:id="@+id/ImgAgregado"
                         android:layout_width="130dp"
                         android:layout_height="match_parent"
-                        tools:srcCompat="@drawable/registro_r_monitoreo_img1"
+                        android:src="@drawable/registro_r_monitoreo_img1"
                         android:padding="10dp"/>
 
                     <LinearLayout
@@ -58,51 +58,48 @@
                         <TextView
                             android:id="@+id/txtagregado"
                             android:layout_width="match_parent"
-                            android:layout_height="57dp"
+                            android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:paddingTop="15dp"
+                            android:layout_marginTop="20dp"
                             android:text="RESIDUOS AGREGADOS"
                             android:textAlignment="center"
-                            android:textColor="#1B71E1"
+                            android:textColor="#FFF"
                             android:textSize="20dp"
                             android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/txtTotalRegistros"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:gravity="center"
                             android:text="0"
-                            android:textColor="#1B71E1"
+                            android:textColor="#FFF"
                             android:textSize="40dp"
                             android:textStyle="bold" />
-
                     </LinearLayout>
-
                 </LinearLayout>
-
             </androidx.cardview.widget.CardView>
 
+            <!-- Tarjeta 2 -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="140dp"
+                android:layout_height="wrap_content"
                 android:layout_margin="4dp"
-                android:layout_weight="1"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="4dp"
-                app:cardBackgroundColor="#FFFFFF">
+                app:cardBackgroundColor="#C8E6C9">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="120dp"
                     android:orientation="horizontal">
 
                     <ImageView
                         android:id="@+id/imgCantidad"
                         android:layout_width="130dp"
                         android:layout_height="match_parent"
-                        android:padding="10dp"
-                        tools:srcCompat="@drawable/icons8_industrial_scales_connected_64" />
+                        android:src="@drawable/icons8_industrial_scales_connected_64"
+                        android:padding="10dp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -112,51 +109,48 @@
                         <TextView
                             android:id="@+id/txtcantidad"
                             android:layout_width="match_parent"
-                            android:layout_height="57dp"
+                            android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:paddingTop="15dp"
+                            android:layout_marginTop="20dp"
                             android:text="CANTIDAD ACTUAL KG"
                             android:textAlignment="center"
-                            android:textColor="#00E676"
+                            android:textColor="#FFF"
                             android:textSize="20dp"
                             android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/txtCantidadTotal"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:gravity="center"
                             android:text="0 Kg"
-                            android:textColor="#00E676"
+                            android:textColor="#FFF"
                             android:textSize="40dp"
                             android:textStyle="bold" />
-
                     </LinearLayout>
-
                 </LinearLayout>
-
             </androidx.cardview.widget.CardView>
 
+            <!-- Tarjeta 3 -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="140dp"
+                android:layout_height="wrap_content"
                 android:layout_margin="4dp"
-                android:layout_weight="1"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="4dp"
-                app:cardBackgroundColor="#FFFFFF">
+                app:cardBackgroundColor="#C5CAE9">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="120dp"
                     android:orientation="horizontal">
 
                     <ImageView
                         android:id="@+id/imgComun"
                         android:layout_width="130dp"
                         android:layout_height="match_parent"
-                        android:padding="10dp"
-                        tools:srcCompat="@drawable/icons8_waste_sorting_48" />
+                        android:src="@drawable/icons8_waste_sorting_48"
+                        android:padding="10dp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -166,36 +160,34 @@
                         <TextView
                             android:id="@+id/txtComun"
                             android:layout_width="match_parent"
-                            android:layout_height="57dp"
+                            android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:paddingTop="15dp"
+                            android:layout_marginTop="20dp"
                             android:text="RESIDUO MAS COMÚN"
                             android:textAlignment="center"
-                            android:textColor="#D500F9"
+                            android:textColor="#FFF"
                             android:textSize="20dp"
                             android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/txtResiduoComun"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:gravity="center"
                             android:text="Ninguno"
-                            android:textColor="#D500F9"
+                            android:textColor="#FFF"
                             android:textSize="40dp"
                             android:textStyle="bold" />
-
                     </LinearLayout>
-
                 </LinearLayout>
-
             </androidx.cardview.widget.CardView>
-
         </LinearLayout>
 
+        <!-- Contenedor para SearchView y RecyclerView,
+             llenando el resto de la pantalla -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="vertical"
             android:padding="15dp">
@@ -205,24 +197,32 @@
                 android:layout_height="match_parent"
                 app:cardCornerRadius="16dp">
 
-                <SearchView
-                    android:id="@+id/etbuscar"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:layout_marginTop="12dp"
-                    android:ems="10"
-                    android:hint="Escribe algún residuo o empleado"
-                    android:inputType="text" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerMonitoreo"
+                <!-- Ponemos un LinearLayout interno para
+                     apilar el buscador y la lista -->
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1" />
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <SearchView
+                        android:id="@+id/etbuscar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#FFE0B2"
+                        android:hint="Escribe algún residuo o empleado"
+                        android:inputType="text" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerMonitoreo"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                </LinearLayout>
             </androidx.cardview.widget.CardView>
 
         </LinearLayout>
-
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
