@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.pdf.PdfDocument;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -84,11 +85,14 @@ public class Registro_R_Reportes extends BaseActivity {
         Calendar calendar = Calendar.getInstance();
         DatePickerDialog dialog = new DatePickerDialog(this, (view, year, month, day) -> {
             calendar.set(year, month, day);
+
+            SimpleDateFormat formatoCorrecto = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+            String fechaFormateada = formatoCorrecto.format(calendar.getTime());
             if (esFechaInicio) {
-                fechaInicio = dateFormat.format(calendar.getTime());
+                fechaInicio = fechaFormateada;
                 txtFechaInicio.setText("Inicio: " + fechaInicio);
             } else {
-                fechaFin = dateFormat.format(calendar.getTime());
+                fechaFin = fechaFormateada;
                 txtFechaFin.setText("Fin: " + fechaFin);
             }
             validarYGenerarReporte();
@@ -99,6 +103,10 @@ public class Registro_R_Reportes extends BaseActivity {
 
     void validarYGenerarReporte() {
         if (fechaInicio != null && fechaFin != null) {
+            fechaInicio = fechaInicio.split(" ")[0] + " 00:00:00";
+            fechaFin = fechaFin.split(" ")[0] + " 23:59:59";
+            Log.e("FECHA INICIO:", fechaInicio);
+            Log.e("FECHA FIN:", fechaFin);
             cargarReportePorFechas();
         }
     }
@@ -116,16 +124,32 @@ public class Registro_R_Reportes extends BaseActivity {
     void cargarGrafico(List<ReporteResiduo> lista) {
         barChart.clear();
 
+        if (lista.isEmpty()) {
+            Log.e("BARCHART", "No hay datos para mostrar en la gráfica.");
+            return;
+        }
+
         List<BarEntry> entries = new ArrayList<>();
         List<String> labels = new ArrayList<>();
 
         int index = 0;
         for (ReporteResiduo item : lista) {
-            entries.add(new BarEntry(index++, (float) item.cantidadTotal));
-            labels.add(item.tipoResiduo);
+            if (item.cantidadTotal > 0) {
+                entries.add(new BarEntry(index, (float) item.cantidadTotal));
+                labels.add(item.tipoResiduo);
+                index++;
+            }
+        }
+
+        if (entries.isEmpty()) {
+            Log.e("BARCHART", "No se generaron entradas para la gráfica.");
+            return;
         }
 
         BarDataSet dataSet = new BarDataSet(entries, "Residuos por tipo");
+        dataSet.setColor(Color.parseColor("#3F51B5"));
+        dataSet.setValueTextSize(12f);
+
         BarData data = new BarData(dataSet);
 
         XAxis xAxis = barChart.getXAxis();
@@ -134,6 +158,8 @@ public class Registro_R_Reportes extends BaseActivity {
         xAxis.setGranularity(1f);
         xAxis.setGranularityEnabled(true);
 
+        barChart.getAxisLeft().setAxisMinimum(0f);
+        barChart.getAxisRight().setEnabled(false);
         barChart.getDescription().setText("Reporte de Residuos");
         barChart.getDescription().setTextSize(12f);
 

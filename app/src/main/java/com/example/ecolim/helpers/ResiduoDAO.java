@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.example.ecolim.Registro_R_Monitoreo;
 import com.example.ecolim.models.RegistroResiduo;
@@ -172,12 +173,16 @@ public class ResiduoDAO {
     public List<ReporteResiduo> obtenerReportesPorFecha(String fechaInicio, String fechaFin) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         List<ReporteResiduo> reportes = new ArrayList<>();
+        Log.e("FECHA REPORTE POR FECHA:", fechaInicio);
+        Log.e("FECHA REPORTE POR FECHA:", fechaFin);
 
         String query = "SELECT r.nombre, SUM(rg.cantidad) as cantidadTotal " +
                 "FROM registro_residuos rg " +
                 "JOIN residuos r ON rg.idResiduo = r.idResiduo " +
-                "WHERE rg.fechaRegistro >= ? AND rg.fechaRegistro <= ? " +
+                "WHERE DATETIME(rg.fechaRegistro) BETWEEN DATETIME(?) AND DATETIME(?) " +
                 "GROUP BY rg.idResiduo";
+
+        Log.e("FECHA CONSULTA QUERY:", query);
 
         Cursor cursor = db.rawQuery(query, new String[]{fechaInicio, fechaFin});
 

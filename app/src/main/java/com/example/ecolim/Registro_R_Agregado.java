@@ -7,8 +7,11 @@ import android.widget.*;
 import com.example.ecolim.helpers.ResiduoDAO;
 import com.example.ecolim.menu.BaseActivity;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Arrays;
+import java.util.Locale;
 
 public class Registro_R_Agregado extends BaseActivity {
 
@@ -79,7 +82,9 @@ public class Registro_R_Agregado extends BaseActivity {
         String tipoResiduo = spinnerTipoResiduo.getSelectedItem().toString();
         double cantidadResiduo = Double.parseDouble(editTextCantidad.getText().toString());
         String observaciones = editObservaciones.getText().toString();
-        String fechaHora = textFechaHora.getText().toString();
+
+        SimpleDateFormat formatoSQLite = new SimpleDateFormat("", Locale.getDefault());
+        String fechaHora = formatoSQLite.format(new Date());
 
         boolean exito = residuoDAO.insertarRegistroResiduo(
                 empleado, tipoResiduo, cantidadResiduo, observaciones, fechaHora);
