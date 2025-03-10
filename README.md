@@ -61,3 +61,14 @@
    ```bash
    git clone https://github.com/Alvarado321/ECOLIM.git
    cd ECOLIM
+
+## Licencia
+Este proyecto está licenciado bajo la Licencia MIT. Consulta el archivo LICENSE para más detalles.
+
+## Contacto
+Para consultas o sugerencias:
+
+Email: alvarado_aries_20@hotmail.com
+LinkedIn: https://www.linkedin.com/in/ronal-antony-alvarado-vega-70a89030a/
+Sitio Web (Portafolio): https://alvarado321.github.io
+
