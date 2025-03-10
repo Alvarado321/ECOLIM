@@ -68,7 +68,7 @@ Este proyecto está licenciado bajo la Licencia MIT. Consulta el archivo LICENSE
 ## Contacto
 Para consultas o sugerencias:
 
-Email: alvarado_aries_20@hotmail.com
-LinkedIn: https://www.linkedin.com/in/ronal-antony-alvarado-vega-70a89030a/
-Sitio Web (Portafolio): https://alvarado321.github.io
+- Email: alvarado_aries_20@hotmail.com
+- LinkedIn: https://www.linkedin.com/in/ronal-antony-alvarado-vega-70a89030a/
+- Sitio Web (Portafolio): https://alvarado321.github.io
 
