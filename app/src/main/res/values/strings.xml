@@ -2,10 +2,14 @@
     <string name="app_name">ECOLIM S.A.C</string>
     <string name="menu_inicio">Inicio</string>
 
-    <string name="menu_otros">📚 Registro Residuos</string>
-    <string name="menu_otros_agregar">🔖 Agregado</string>
-    <string name="menu_otros_monitoreo">📈 Monitoreo</string>
-    <string name="menu_otros_reportes">📊 Reportes</string>
+    <string name="menu_gestion_empleados">🧑🏻‍🤝‍🧑🏻 Gestion Empleados</string>
+
+    <string name="menu_gestion_usuarios">🔑 Control de Usuarios</string>
+
+    <string name="menu_registro_residuos">📚 Registro Residuos</string>
+    <string name="menu_registro_residuos_agregar">🔖 Agregado</string>
+    <string name="menu_registro_residuos_monitoreo">📈 Monitoreo</string>
+    <string name="menu_registro_residuos_reportes">📊 Reportes</string>
 
     <string name="menu_conoceme">📌 Conócenos</string>
 

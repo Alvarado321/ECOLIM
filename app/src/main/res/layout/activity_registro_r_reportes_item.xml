@@ -24,7 +24,7 @@
                 android:layout_height="40dp"
                 android:layout_weight="3"
                 android:padding="5dp"
-                app:srcCompat="@drawable/icons8_open_box_64" />
+                app:srcCompat="@drawable/icono_residuo" />
 
             <TextView
                 android:id="@+id/txtTipoResiduoReporte"

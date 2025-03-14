@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +18,7 @@ import com.example.ecolim.helpers.DBHelper;
 public class Auth extends AppCompatActivity {
 
     EditText inputNombre, inputEmail, inputPassword;
+    Spinner spRol;
     Button btnLogin, btnRegistro;
     DBHelper dbHelper;
 
@@ -53,7 +55,7 @@ public class Auth extends AppCompatActivity {
         valores.put("email", email);
         valores.put("password", password);
 
-        long resultado = db.insert(DBHelper.TABLA_EMPLEADO, null, valores);
+        long resultado = db.insert(DBHelper.TABLA_USUARIO, null, valores);
 
         if(resultado != -1)
             Toast.makeText(this, "Registro exitoso", Toast.LENGTH_SHORT).show();
@@ -73,15 +75,23 @@ public class Auth extends AppCompatActivity {
         }
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + DBHelper.TABLA_EMPLEADO + " WHERE email=? AND password=?",
+        Cursor cursor = db.rawQuery("SELECT * FROM " + DBHelper.TABLA_USUARIO + " WHERE email=? AND password=?",
                 new String[]{email, password});
 
         if(cursor.moveToFirst()) {
-            Toast.makeText(this, "Inicio exitoso", Toast.LENGTH_SHORT).show();
+            int idUsuarioIndex = cursor.getColumnIndexOrThrow("idUsuario");
+            int nombreIndex = cursor.getColumnIndexOrThrow("nombre");
+            
+            int idUsuario = cursor.getInt(idUsuarioIndex);
+            String nombre = cursor.getString(nombreIndex);
+
             SharedPreferences.Editor editor = getSharedPreferences("UserData", MODE_PRIVATE).edit();
             editor.putString("loggedUserEmail", email);
+            editor.putInt("loggedUserId", idUsuario);
+            editor.putString("loggedUserName", nombre);
             editor.apply();
 
+            Toast.makeText(this, "Bienvenido " + nombre, Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, Inicio.class));
             finish();
         } else {

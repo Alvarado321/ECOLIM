@@ -10,14 +10,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.ecolim.Auth;
-import com.example.ecolim.Configuracion;
-import com.example.ecolim.Conocenos;
-import com.example.ecolim.Google_Maps;
 import com.example.ecolim.Inicio;
-import com.example.ecolim.R;
+import com.example.ecolim.GestionEmpleados;
+import com.example.ecolim.GestionUsuarios;
 import com.example.ecolim.Registro_R_Agregado;
 import com.example.ecolim.Registro_R_Monitoreo;
 import com.example.ecolim.Registro_R_Reportes;
+import com.example.ecolim.Google_Maps;
+import com.example.ecolim.Conocenos;
+import com.example.ecolim.Configuracion;
+import com.example.ecolim.R;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
@@ -45,6 +47,12 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (id == R.id.action_inicio) {
             Toast.makeText(this, "Se presionó el icono de Inicio", Toast.LENGTH_LONG).show();
             startActivity(new Intent(this, Inicio.class));
+            return true;
+        } else if (id == R.id.action_gestion_empleados) {
+            startActivity(new Intent(this, GestionEmpleados.class));
+            return true;
+        } else if (id == R.id.action_gestion_usuarios) {
+            startActivity(new Intent(this, GestionUsuarios.class));
             return true;
         } else if (id == R.id.action_agregar) {
             startActivity(new Intent(this, Registro_R_Agregado.class));
