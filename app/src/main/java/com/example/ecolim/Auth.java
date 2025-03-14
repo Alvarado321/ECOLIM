@@ -54,14 +54,15 @@ public class Auth extends AppCompatActivity {
         valores.put("nombre", nombre);
         valores.put("email", email);
         valores.put("password", password);
+        valores.put("rol", "Usuario"); // Asignamos rol por defecto
 
         long resultado = db.insert(DBHelper.TABLA_USUARIO, null, valores);
 
-        if(resultado != -1)
-            Toast.makeText(this, "Registro exitoso", Toast.LENGTH_SHORT).show();
-        else
-            Toast.makeText(this, "El email ya existe o hubo un error", Toast.LENGTH_SHORT).show();
-
+        if(resultado != -1) {
+            Toast.makeText(this, "Usuario registrado exitosamente", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Error al registrar usuario", Toast.LENGTH_SHORT).show();
+        }
         db.close();
     }
 
