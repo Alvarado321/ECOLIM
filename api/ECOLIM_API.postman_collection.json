@@ -7,41 +7,64 @@
 		}
 	],
 	"info": {
-		"_postman_id": "ecolim-api-collection",
+		"_postman_id": "7f9e3b5a-1b2c-4f8a-9d2c-3e4b5c6d7e8f",
 		"name": "ECOLIM API",
-		"description": "Colección de funciones para la API de ECOLIM",
+		"description": "Colección de endpoints para la API de ECOLIM",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "Empleados",
+			"name": "Usuarios",
 			"item": [
 				{
-					"name": "Obtener todos los empleados",
+					"name": "Obtener Usuarios",
 					"request": {
 						"method": "GET",
-						"url": "{{base_url}}/empleados"
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/usuarios",
+							"host": ["{{base_url}}"],
+							"path": ["usuarios"]
+						},
+						"description": "Obtiene la lista de todos los usuarios"
 					}
 				},
 				{
-					"name": "Obtener empleado por ID",
+					"name": "Obtener Usuario por ID",
 					"request": {
 						"method": "GET",
-						"url": "{{base_url}}/empleados/1"
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/usuarios/1",
+							"host": ["{{base_url}}"],
+							"path": ["usuarios", "1"]
+						},
+						"description": "Obtiene un usuario específico por su ID"
 					}
 				},
 				{
-					"name": "Buscar empleados",
+					"name": "Buscar Usuarios",
 					"request": {
 						"method": "GET",
-						"url": "{{base_url}}/empleados?search=juan"
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/usuarios?search=admin",
+							"host": ["{{base_url}}"],
+							"path": ["usuarios"],
+							"query": [
+								{
+									"key": "search",
+									"value": "admin"
+								}
+							]
+						},
+						"description": "Busca usuarios por nombre o email"
 					}
 				},
 				{
-					"name": "Crear empleado",
+					"name": "Crear Usuario",
 					"request": {
 						"method": "POST",
-						"url": "{{base_url}}/empleados",
 						"header": [
 							{
 								"key": "Content-Type",
@@ -50,15 +73,42 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"nombre\": \"Juan Pérez\",\n\t\"email\": \"juan@example.com\",\n\t\"password\": \"123456\"\n}"
-						}
+							"raw": "{\n\t\"nombre\": \"Nuevo Usuario\",\n\t\"email\": \"nuevo@ecolim.com\",\n\t\"password\": \"123456\",\n\t\"rol\": \"Usuario\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/usuarios",
+							"host": ["{{base_url}}"],
+							"path": ["usuarios"]
+						},
+						"description": "Crea un nuevo usuario"
 					}
 				},
 				{
-					"name": "Actualizar empleado",
+					"name": "Login Usuario",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"admin@ecolim.com\",\n\t\"password\": \"password\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/usuarios/login",
+							"host": ["{{base_url}}"],
+							"path": ["usuarios", "login"]
+						},
+						"description": "Autentica un usuario"
+					}
+				},
+				{
+					"name": "Actualizar Usuario",
 					"request": {
 						"method": "PUT",
-						"url": "{{base_url}}/empleados/1",
 						"header": [
 							{
 								"key": "Content-Type",
@@ -68,21 +118,82 @@
 						"body": {
 							"mode": "raw",
 							"raw": "{\n\t\"nombre\": \"Juan Pérez Actualizado\",\n\t\"email\": \"juan@example.com\"\n}"
-						}
+						},
+						"url": {
+							"raw": "{{base_url}}/usuarios/1",
+							"host": ["{{base_url}}"],
+							"path": ["usuarios", "1"]
+						},
+						"description": "Actualiza un usuario existente"
 					}
 				},
 				{
-					"name": "Eliminar empleado",
+					"name": "Eliminar Usuario",
 					"request": {
 						"method": "DELETE",
-						"url": "{{base_url}}/empleados/1"
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/usuarios/1",
+							"host": ["{{base_url}}"],
+							"path": ["usuarios", "1"]
+						},
+						"description": "Elimina un usuario"
+					}
+				}
+			]
+		},
+		{
+			"name": "Empleados",
+			"item": [
+				{
+					"name": "Obtener Empleados",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/empleados",
+							"host": ["{{base_url}}"],
+							"path": ["empleados"]
+						},
+						"description": "Obtiene la lista de todos los empleados"
 					}
 				},
 				{
-					"name": "Login empleado",
+					"name": "Obtener Empleado por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/empleados/1",
+							"host": ["{{base_url}}"],
+							"path": ["empleados", "1"]
+						},
+						"description": "Obtiene un empleado específico por su ID"
+					}
+				},
+				{
+					"name": "Buscar Empleados",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/empleados?search=juan",
+							"host": ["{{base_url}}"],
+							"path": ["empleados"],
+							"query": [
+								{
+									"key": "search",
+									"value": "juan"
+								}
+							]
+						},
+						"description": "Busca empleados por nombre, cargo o departamento"
+					}
+				},
+				{
+					"name": "Crear Empleado",
 					"request": {
 						"method": "POST",
-						"url": "{{base_url}}/empleados/login",
 						"header": [
 							{
 								"key": "Content-Type",
@@ -91,8 +202,49 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"email\": \"juan@example.com\",\n\t\"password\": \"123456\"\n}"
-						}
+							"raw": "{\n\t\"nombre\": \"Nuevo Empleado\",\n\t\"email\": \"empleado@ecolim.com\",\n\t\"cargo\": \"Operador\",\n\t\"departamento\": \"Producción\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/empleados",
+							"host": ["{{base_url}}"],
+							"path": ["empleados"]
+						},
+						"description": "Crea un nuevo empleado"
+					}
+				},
+				{
+					"name": "Actualizar Empleado",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"nombre\": \"Empleado Actualizado\",\n\t\"email\": \"actualizado@ecolim.com\",\n\t\"cargo\": \"Supervisor\",\n\t\"departamento\": \"Calidad\",\n\t\"activo\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/empleados/1",
+							"host": ["{{base_url}}"],
+							"path": ["empleados", "1"]
+						},
+						"description": "Actualiza un empleado existente"
+					}
+				},
+				{
+					"name": "Eliminar Empleado",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/empleados/1",
+							"host": ["{{base_url}}"],
+							"path": ["empleados", "1"]
+						},
+						"description": "Elimina un empleado"
 					}
 				}
 			]
@@ -101,31 +253,54 @@
 			"name": "Residuos",
 			"item": [
 				{
-					"name": "Obtener todos los residuos",
+					"name": "Obtener Residuos",
 					"request": {
 						"method": "GET",
-						"url": "{{base_url}}/residuos"
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/residuos",
+							"host": ["{{base_url}}"],
+							"path": ["residuos"]
+						},
+						"description": "Obtiene la lista de todos los residuos"
 					}
 				},
 				{
-					"name": "Obtener residuo por ID",
+					"name": "Obtener Residuo por ID",
 					"request": {
 						"method": "GET",
-						"url": "{{base_url}}/residuos/1"
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/residuos/1",
+							"host": ["{{base_url}}"],
+							"path": ["residuos", "1"]
+						},
+						"description": "Obtiene un residuo específico por su ID"
 					}
 				},
 				{
-					"name": "Buscar residuos",
+					"name": "Buscar Residuos",
 					"request": {
 						"method": "GET",
-						"url": "{{base_url}}/residuos?search=plastico"
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/residuos?search=plastico",
+							"host": ["{{base_url}}"],
+							"path": ["residuos"],
+							"query": [
+								{
+									"key": "search",
+									"value": "plastico"
+								}
+							]
+						},
+						"description": "Busca residuos por nombre o descripción"
 					}
 				},
 				{
-					"name": "Crear residuo",
+					"name": "Crear Residuo",
 					"request": {
 						"method": "POST",
-						"url": "{{base_url}}/residuos",
 						"header": [
 							{
 								"key": "Content-Type",
@@ -134,15 +309,20 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"nombre\": \"Cartón\",\n\t\"descripcion\": \"Residuos de cartón reciclable\"\n}"
-						}
+							"raw": "{\n\t\"nombre\": \"Nuevo Residuo\",\n\t\"descripcion\": \"Descripción del nuevo residuo\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/residuos",
+							"host": ["{{base_url}}"],
+							"path": ["residuos"]
+						},
+						"description": "Crea un nuevo residuo"
 					}
 				},
 				{
-					"name": "Actualizar residuo",
+					"name": "Actualizar Residuo",
 					"request": {
 						"method": "PUT",
-						"url": "{{base_url}}/residuos/1",
 						"header": [
 							{
 								"key": "Content-Type",
@@ -151,22 +331,27 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"nombre\": \"Cartón Actualizado\",\n\t\"descripcion\": \"Residuos de cartón reciclable actualizado\"\n}"
-						}
+							"raw": "{\n\t\"nombre\": \"Residuo Actualizado\",\n\t\"descripcion\": \"Nueva descripción del residuo\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/residuos/1",
+							"host": ["{{base_url}}"],
+							"path": ["residuos", "1"]
+						},
+						"description": "Actualiza un residuo existente"
 					}
 				},
 				{
-					"name": "Eliminar residuo",
+					"name": "Eliminar Residuo",
 					"request": {
 						"method": "DELETE",
-						"url": "{{base_url}}/residuos/1"
-					}
-				},
-				{
-					"name": "Inicializar datos de residuos",
-					"request": {
-						"method": "POST",
-						"url": "{{base_url}}/residuos/initialize"
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/residuos/1",
+							"host": ["{{base_url}}"],
+							"path": ["residuos", "1"]
+						},
+						"description": "Elimina un residuo"
 					}
 				}
 			]
@@ -175,45 +360,74 @@
 			"name": "Registros",
 			"item": [
 				{
-					"name": "Obtener todos los registros",
+					"name": "Obtener Registros",
 					"request": {
 						"method": "GET",
-						"url": "{{base_url}}/registros"
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/registros",
+							"host": ["{{base_url}}"],
+							"path": ["registros"]
+						},
+						"description": "Obtiene la lista de todos los registros"
 					}
 				},
 				{
-					"name": "Obtener registro por ID",
+					"name": "Obtener Registro por ID",
 					"request": {
 						"method": "GET",
-						"url": "{{base_url}}/registros/1"
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/registros/1",
+							"host": ["{{base_url}}"],
+							"path": ["registros", "1"]
+						},
+						"description": "Obtiene un registro específico por su ID"
 					}
 				},
 				{
-					"name": "Obtener registros por empleado",
+					"name": "Obtener Registros por Empleado",
 					"request": {
 						"method": "GET",
-						"url": "{{base_url}}/registros?empleado=1"
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/registros/empleado/1",
+							"host": ["{{base_url}}"],
+							"path": ["registros", "empleado", "1"]
+						},
+						"description": "Obtiene todos los registros de un empleado específico"
 					}
 				},
 				{
-					"name": "Obtener registros por residuo",
+					"name": "Obtener Registros por Residuo",
 					"request": {
 						"method": "GET",
-						"url": "{{base_url}}/registros?residuo=1"
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/registros/residuo/1",
+							"host": ["{{base_url}}"],
+							"path": ["registros", "residuo", "1"]
+						},
+						"description": "Obtiene todos los registros de un tipo de residuo específico"
 					}
 				},
 				{
-					"name": "Obtener totales por residuo",
+					"name": "Obtener Totales por Residuo",
 					"request": {
 						"method": "GET",
-						"url": "{{base_url}}/registros/totales"
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/registros/totales",
+							"host": ["{{base_url}}"],
+							"path": ["registros", "totales"]
+						},
+						"description": "Obtiene los totales acumulados por tipo de residuo"
 					}
 				},
 				{
-					"name": "Crear registro",
+					"name": "Crear Registro",
 					"request": {
 						"method": "POST",
-						"url": "{{base_url}}/registros",
 						"header": [
 							{
 								"key": "Content-Type",
@@ -222,15 +436,20 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"idEmpleado\": 1,\n\t\"idResiduo\": 1,\n\t\"cantidad\": 5.5,\n\t\"observaciones\": \"Registro de prueba\"\n}"
-						}
+							"raw": "{\n\t\"idEmpleado\": 1,\n\t\"idResiduo\": 1,\n\t\"cantidad\": 10.5,\n\t\"observaciones\": \"Observaciones del registro\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/registros",
+							"host": ["{{base_url}}"],
+							"path": ["registros"]
+						},
+						"description": "Crea un nuevo registro"
 					}
 				},
 				{
-					"name": "Actualizar registro",
+					"name": "Actualizar Registro",
 					"request": {
 						"method": "PUT",
-						"url": "{{base_url}}/registros/1",
 						"header": [
 							{
 								"key": "Content-Type",
@@ -239,22 +458,33 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"idEmpleado\": 1,\n\t\"idResiduo\": 1,\n\t\"cantidad\": 6.5,\n\t\"observaciones\": \"Registro actualizado\"\n}"
-						}
+							"raw": "{\n\t\"idEmpleado\": 1,\n\t\"idResiduo\": 1,\n\t\"cantidad\": 15.5,\n\t\"observaciones\": \"Observaciones actualizadas\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/registros/1",
+							"host": ["{{base_url}}"],
+							"path": ["registros", "1"]
+						},
+						"description": "Actualiza un registro existente"
 					}
 				},
 				{
-					"name": "Eliminar registro",
+					"name": "Eliminar Registro",
 					"request": {
 						"method": "DELETE",
-						"url": "{{base_url}}/registros/1"
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/registros/1",
+							"host": ["{{base_url}}"],
+							"path": ["registros", "1"]
+						},
+						"description": "Elimina un registro"
 					}
 				},
 				{
-					"name": "Buscar por rango de fechas",
+					"name": "Buscar por Rango de Fechas",
 					"request": {
 						"method": "POST",
-						"url": "{{base_url}}/registros/fecha",
 						"header": [
 							{
 								"key": "Content-Type",
@@ -263,8 +493,14 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"startDate\": \"2024-03-01\",\n\t\"endDate\": \"2024-03-31\"\n}"
-						}
+							"raw": "{\n\t\"fechaInicio\": \"2024-03-01\",\n\t\"fechaFin\": \"2024-03-31\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/registros/fecha",
+							"host": ["{{base_url}}"],
+							"path": ["registros", "fecha"]
+						},
+						"description": "Busca registros dentro de un rango de fechas"
 					}
 				}
 			]

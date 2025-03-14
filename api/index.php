@@ -1,151 +1,123 @@
 <?php
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
-header("Access-Control-Allow-Methods: GET,POST,PUT,DELETE");
+header("Access-Control-Allow-Methods: POST, GET, PUT, DELETE");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
-require_once __DIR__ . "/controllers/EmpleadoController.php";
-require_once __DIR__ . "/controllers/ResiduoController.php";
-require_once __DIR__ . "/controllers/RegistroResiduoController.php";
-require_once __DIR__ . "/utils/Response.php";
+require_once 'config/database.php';
+require_once 'controllers/EmpleadoController.php';
+require_once 'controllers/ResiduoController.php';
+require_once 'controllers/RegistroResiduoController.php';
+require_once 'controllers/UsuarioController.php';
+require_once 'utils/Response.php';
 
-// Get the request method and URI
-$method = $_SERVER['REQUEST_METHOD'];
-$request_uri = $_SERVER['REQUEST_URI'];
+$database = new Database();
+$db = $database->getConnection();
+$response = new Response();
 
-// Remove base path from URI to get the route
-$base_path = '/ecolim/api';
-$route = str_replace($base_path, '', $request_uri);
-$route = strtok($route, '?'); // Remove query parameters
+$empleadoController = new EmpleadoController($db);
+$residuoController = new ResiduoController($db);
+$registroController = new RegistroResiduoController($db);
+$usuarioController = new UsuarioController($db);
 
-// Parse the route into segments
-$segments = explode('/', trim($route, '/'));
-$resource = $segments[0] ?? '';
-$id = $segments[1] ?? null;
-$action = $segments[2] ?? null;
+$request_method = $_SERVER["REQUEST_METHOD"];
+$path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+$path_parts = explode('/', trim($path, '/'));
+$resource = isset($path_parts[2]) ? $path_parts[2] : '';
+$id = isset($path_parts[3]) ? $path_parts[3] : null;
 
-// Initialize controllers
-$empleadoController = new EmpleadoController();
-$residuoController = new ResiduoController();
-$registroController = new RegistroResiduoController();
+$data = json_decode(file_get_contents("php://input"));
 
-// Route the request
-switch($resource) {
-    case 'empleados':
-        switch($method) {
-            case 'GET':
-                if($id) {
-                    $empleadoController->getById($id);
-                } elseif(isset($_GET['search'])) {
-                    $empleadoController->search($_GET['search']);
-                } else {
-                    $empleadoController->getAll();
-                }
-                break;
-            case 'POST':
-                if($action === 'login') {
-                    $empleadoController->login();
-                } else {
-                    $empleadoController->create();
-                }
-                break;
-            case 'PUT':
-                if($id) {
-                    $empleadoController->update($id);
-                } else {
-                    Response::error("ID no proporcionado", 400);
-                }
-                break;
-            case 'DELETE':
-                if($id) {
-                    $empleadoController->delete($id);
-                } else {
-                    Response::error("ID no proporcionado", 400);
-                }
-                break;
-            default:
-                Response::error("Método no permitido", 405);
-        }
-        break;
+try {
+    switch($resource) {
+        case 'usuarios':
+            switch($request_method) {
+                case 'GET':
+                    echo $id ? $usuarioController->getOne($id) : $usuarioController->getAll();
+                    break;
+                case 'POST':
+                    if(isset($path_parts[3]) && $path_parts[3] === 'login') {
+                        echo $usuarioController->login($data);
+                    } else {
+                        echo $usuarioController->create($data);
+                    }
+                    break;
+                case 'PUT':
+                    echo $usuarioController->update($id, $data);
+                    break;
+                case 'DELETE':
+                    echo $usuarioController->delete($id);
+                    break;
+                default:
+                    echo $response->error("Método no permitido");
+            }
+            break;
 
-    case 'residuos':
-        switch($method) {
-            case 'GET':
-                if($id) {
-                    $residuoController->getById($id);
-                } elseif(isset($_GET['search'])) {
-                    $residuoController->search($_GET['search']);
-                } else {
-                    $residuoController->getAll();
-                }
-                break;
-            case 'POST':
-                if($action === 'initialize') {
-                    $residuoController->initializeData();
-                } else {
-                    $residuoController->create();
-                }
-                break;
-            case 'PUT':
-                if($id) {
-                    $residuoController->update($id);
-                } else {
-                    Response::error("ID no proporcionado", 400);
-                }
-                break;
-            case 'DELETE':
-                if($id) {
-                    $residuoController->delete($id);
-                } else {
-                    Response::error("ID no proporcionado", 400);
-                }
-                break;
-            default:
-                Response::error("Método no permitido", 405);
-        }
-        break;
+        case 'empleados':
+            switch($request_method) {
+                case 'GET':
+                    echo $id ? $empleadoController->getOne($id) : $empleadoController->getAll();
+                    break;
+                case 'POST':
+                    echo $empleadoController->create($data);
+                    break;
+                case 'PUT':
+                    echo $empleadoController->update($id, $data);
+                    break;
+                case 'DELETE':
+                    echo $empleadoController->delete($id);
+                    break;
+                default:
+                    echo $response->error("Método no permitido");
+            }
+            break;
 
-    case 'registros':
-        switch($method) {
-            case 'GET':
-                if($id) {
-                    $registroController->getById($id);
-                } elseif($action === 'totales') {
-                    $registroController->getTotalsByResiduo();
-                } elseif(isset($_GET['empleado'])) {
-                    $registroController->getByEmpleado($_GET['empleado']);
-                } elseif(isset($_GET['residuo'])) {
-                    $registroController->getByResiduo($_GET['residuo']);
-                } else {
-                    $registroController->getAll();
-                }
-                break;
-            case 'POST':
-                if($action === 'fecha') {
-                    $registroController->getByDateRange();
-                } else {
-                    $registroController->create();
-                }
-                break;
-            case 'PUT':
-                if($id) {
-                    $registroController->update($id);
-                } else {
-                    Response::error("ID no proporcionado", 400);
-                }
-                break;
-            case 'DELETE':
-                if($id) {
-                    $registroController->delete($id);
-                } else {
-                    Response::error("ID no proporcionado", 400);
-                }
-                break;
-            default:
-                Response::error("Método no permitido", 405);
-        }
-        break;
-    
-    default:
-        Response::error("Recurso no encontrado", 404);
+        case 'residuos':
+            switch($request_method) {
+                case 'GET':
+                    echo $id ? $residuoController->getOne($id) : $residuoController->getAll();
+                    break;
+                case 'POST':
+                    echo $residuoController->create($data);
+                    break;
+                case 'PUT':
+                    echo $residuoController->update($id, $data);
+                    break;
+                case 'DELETE':
+                    echo $residuoController->delete($id);
+                    break;
+                default:
+                    echo $response->error("Método no permitido");
+            }
+            break;
+
+        case 'registros':
+            switch($request_method) {
+                case 'GET':
+                    if(isset($path_parts[3]) && $path_parts[3] === 'empleado') {
+                        $empleadoId = isset($path_parts[4]) ? $path_parts[4] : null;
+                        echo $registroController->getByEmpleado($empleadoId);
+                    } else {
+                        echo $id ? $registroController->getOne($id) : $registroController->getAll();
+                    }
+                    break;
+                case 'POST':
+                    echo $registroController->create($data);
+                    break;
+                case 'PUT':
+                    echo $registroController->update($id, $data);
+                    break;
+                case 'DELETE':
+                    echo $registroController->delete($id);
+                    break;
+                default:
+                    echo $response->error("Método no permitido");
+            }
+            break;
+
+        default:
+            echo $response->error("Recurso no encontrado");
+    }
+} catch(Exception $e) {
+    echo $response->error($e->getMessage());
 }
