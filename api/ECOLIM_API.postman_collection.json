@@ -1,0 +1,273 @@
+{
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8080/ecolim/api",
+			"type": "string"
+		}
+	],
+	"info": {
+		"_postman_id": "ecolim-api-collection",
+		"name": "ECOLIM API",
+		"description": "Colección de funciones para la API de ECOLIM",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Empleados",
+			"item": [
+				{
+					"name": "Obtener todos los empleados",
+					"request": {
+						"method": "GET",
+						"url": "{{base_url}}/empleados"
+					}
+				},
+				{
+					"name": "Obtener empleado por ID",
+					"request": {
+						"method": "GET",
+						"url": "{{base_url}}/empleados/1"
+					}
+				},
+				{
+					"name": "Buscar empleados",
+					"request": {
+						"method": "GET",
+						"url": "{{base_url}}/empleados?search=juan"
+					}
+				},
+				{
+					"name": "Crear empleado",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/empleados",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"nombre\": \"Juan Pérez\",\n\t\"email\": \"juan@example.com\",\n\t\"password\": \"123456\"\n}"
+						}
+					}
+				},
+				{
+					"name": "Actualizar empleado",
+					"request": {
+						"method": "PUT",
+						"url": "{{base_url}}/empleados/1",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"nombre\": \"Juan Pérez Actualizado\",\n\t\"email\": \"juan@example.com\"\n}"
+						}
+					}
+				},
+				{
+					"name": "Eliminar empleado",
+					"request": {
+						"method": "DELETE",
+						"url": "{{base_url}}/empleados/1"
+					}
+				},
+				{
+					"name": "Login empleado",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/empleados/login",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"juan@example.com\",\n\t\"password\": \"123456\"\n}"
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Residuos",
+			"item": [
+				{
+					"name": "Obtener todos los residuos",
+					"request": {
+						"method": "GET",
+						"url": "{{base_url}}/residuos"
+					}
+				},
+				{
+					"name": "Obtener residuo por ID",
+					"request": {
+						"method": "GET",
+						"url": "{{base_url}}/residuos/1"
+					}
+				},
+				{
+					"name": "Buscar residuos",
+					"request": {
+						"method": "GET",
+						"url": "{{base_url}}/residuos?search=plastico"
+					}
+				},
+				{
+					"name": "Crear residuo",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/residuos",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"nombre\": \"Cartón\",\n\t\"descripcion\": \"Residuos de cartón reciclable\"\n}"
+						}
+					}
+				},
+				{
+					"name": "Actualizar residuo",
+					"request": {
+						"method": "PUT",
+						"url": "{{base_url}}/residuos/1",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"nombre\": \"Cartón Actualizado\",\n\t\"descripcion\": \"Residuos de cartón reciclable actualizado\"\n}"
+						}
+					}
+				},
+				{
+					"name": "Eliminar residuo",
+					"request": {
+						"method": "DELETE",
+						"url": "{{base_url}}/residuos/1"
+					}
+				},
+				{
+					"name": "Inicializar datos de residuos",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/residuos/initialize"
+					}
+				}
+			]
+		},
+		{
+			"name": "Registros",
+			"item": [
+				{
+					"name": "Obtener todos los registros",
+					"request": {
+						"method": "GET",
+						"url": "{{base_url}}/registros"
+					}
+				},
+				{
+					"name": "Obtener registro por ID",
+					"request": {
+						"method": "GET",
+						"url": "{{base_url}}/registros/1"
+					}
+				},
+				{
+					"name": "Obtener registros por empleado",
+					"request": {
+						"method": "GET",
+						"url": "{{base_url}}/registros?empleado=1"
+					}
+				},
+				{
+					"name": "Obtener registros por residuo",
+					"request": {
+						"method": "GET",
+						"url": "{{base_url}}/registros?residuo=1"
+					}
+				},
+				{
+					"name": "Obtener totales por residuo",
+					"request": {
+						"method": "GET",
+						"url": "{{base_url}}/registros/totales"
+					}
+				},
+				{
+					"name": "Crear registro",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/registros",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idEmpleado\": 1,\n\t\"idResiduo\": 1,\n\t\"cantidad\": 5.5,\n\t\"observaciones\": \"Registro de prueba\"\n}"
+						}
+					}
+				},
+				{
+					"name": "Actualizar registro",
+					"request": {
+						"method": "PUT",
+						"url": "{{base_url}}/registros/1",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idEmpleado\": 1,\n\t\"idResiduo\": 1,\n\t\"cantidad\": 6.5,\n\t\"observaciones\": \"Registro actualizado\"\n}"
+						}
+					}
+				},
+				{
+					"name": "Eliminar registro",
+					"request": {
+						"method": "DELETE",
+						"url": "{{base_url}}/registros/1"
+					}
+				},
+				{
+					"name": "Buscar por rango de fechas",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/registros/fecha",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"startDate\": \"2024-03-01\",\n\t\"endDate\": \"2024-03-31\"\n}"
+						}
+					}
+				}
+			]
+		}
+	]
+}
