@@ -94,6 +94,10 @@
                 android:text="Limpiar" />
         </LinearLayout>
 
+        <SearchView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvUsuarios"
             android:layout_width="match_parent"

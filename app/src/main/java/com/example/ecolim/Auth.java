@@ -1,33 +1,31 @@
 package com.example.ecolim;
 
-import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.example.ecolim.helpers.DBHelper;
+import com.example.ecolim.api.ApiClient;
+import com.example.ecolim.api.LoginRequest;
+import com.example.ecolim.api.LoginResponse;
+import com.example.ecolim.models.Usuario;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Auth extends AppCompatActivity {
 
     EditText inputNombre, inputEmail, inputPassword;
     Spinner spRol;
     Button btnLogin, btnRegistro;
-    DBHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auth);
-
-        dbHelper = new DBHelper(this);
 
         inputNombre = findViewById(R.id.inputNombre);
         inputEmail = findViewById(R.id.inputEmail);
@@ -49,21 +47,28 @@ public class Auth extends AppCompatActivity {
             return;
         }
 
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        ContentValues valores = new ContentValues();
-        valores.put("nombre", nombre);
-        valores.put("email", email);
-        valores.put("password", password);
-        valores.put("rol", "Usuario"); // Asignamos rol por defecto
+        Usuario nuevoUsuario = new Usuario();
+        nuevoUsuario.setNombre(nombre);
+        nuevoUsuario.setEmail(email);
+        nuevoUsuario.setPassword(password);
+        nuevoUsuario.setRol("Usuario"); // Rol por defecto
 
-        long resultado = db.insert(DBHelper.TABLA_USUARIO, null, valores);
+        ApiClient.getApiService().registrarUsuario(nuevoUsuario).enqueue(new Callback<Usuario>() {
+            @Override
+            public void onResponse(Call<Usuario> call, Response<Usuario> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    Toast.makeText(Auth.this, "Usuario registrado exitosamente", Toast.LENGTH_SHORT).show();
+                    limpiarCampos();
+                } else {
+                    Toast.makeText(Auth.this, "Error al registrar usuario", Toast.LENGTH_SHORT).show();
+                }
+            }
 
-        if(resultado != -1) {
-            Toast.makeText(this, "Usuario registrado exitosamente", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "Error al registrar usuario", Toast.LENGTH_SHORT).show();
-        }
-        db.close();
+            @Override
+            public void onFailure(Call<Usuario> call, Throwable t) {
+                Toast.makeText(Auth.this, "Error de conexión: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void iniciarSesion() {
@@ -75,31 +80,37 @@ public class Auth extends AppCompatActivity {
             return;
         }
 
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + DBHelper.TABLA_USUARIO + " WHERE email=? AND password=?",
-                new String[]{email, password});
+        LoginRequest loginRequest = new LoginRequest(email, password);
+        ApiClient.getApiService().login(loginRequest).enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                if (response.isSuccessful() && response.body() != null && "success".equals(response.body().getStatus())) {
+                    Usuario usuario = response.body().getUsuario();
 
-        if(cursor.moveToFirst()) {
-            int idUsuarioIndex = cursor.getColumnIndexOrThrow("idUsuario");
-            int nombreIndex = cursor.getColumnIndexOrThrow("nombre");
-            
-            int idUsuario = cursor.getInt(idUsuarioIndex);
-            String nombre = cursor.getString(nombreIndex);
+                    SharedPreferences.Editor editor = getSharedPreferences("UserData", MODE_PRIVATE).edit();
+                    editor.putString("loggedUserEmail", email);
+                    editor.putInt("loggedUserId", usuario.getIdUsuario());
+                    editor.putString("loggedUserName", usuario.getNombre());
+                    editor.apply();
 
-            SharedPreferences.Editor editor = getSharedPreferences("UserData", MODE_PRIVATE).edit();
-            editor.putString("loggedUserEmail", email);
-            editor.putInt("loggedUserId", idUsuario);
-            editor.putString("loggedUserName", nombre);
-            editor.apply();
+                    Toast.makeText(Auth.this, "Bienvenido " + usuario.getNombre(), Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(Auth.this, Inicio.class));
+                    finish();
+                } else {
+                    Toast.makeText(Auth.this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
+                }
+            }
 
-            Toast.makeText(this, "Bienvenido " + nombre, Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(this, Inicio.class));
-            finish();
-        } else {
-            Toast.makeText(this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
-        }
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                Toast.makeText(Auth.this, "Error de conexión: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
-        cursor.close();
-        db.close();
+    private void limpiarCampos() {
+        inputNombre.setText("");
+        inputEmail.setText("");
+        inputPassword.setText("");
     }
 }

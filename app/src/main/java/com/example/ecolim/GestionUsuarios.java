@@ -1,8 +1,5 @@
 package com.example.ecolim;
 
-import android.content.ContentValues;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,11 +9,14 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.ecolim.adapters.UsuariosAdapter;
-import com.example.ecolim.helpers.DBHelper;
+import com.example.ecolim.api.ApiClient;
 import com.example.ecolim.menu.BaseActivity;
 import com.example.ecolim.models.Usuario;
 import java.util.ArrayList;
 import java.util.List;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class GestionUsuarios extends BaseActivity {
     private EditText etNombre, etEmail, etPassword;
@@ -25,7 +25,6 @@ public class GestionUsuarios extends BaseActivity {
     private RecyclerView rvUsuarios;
     private UsuariosAdapter adapter;
     private List<Usuario> listaUsuarios;
-    private DBHelper dbHelper;
     private Integer usuarioEditandoId = null;
 
     @Override
@@ -47,8 +46,6 @@ public class GestionUsuarios extends BaseActivity {
         rvUsuarios.setLayoutManager(new LinearLayoutManager(this));
         rvUsuarios.setAdapter(adapter);
 
-        dbHelper = new DBHelper(this);
-
         btnGuardar.setOnClickListener(v -> guardarUsuario());
         btnLimpiar.setOnClickListener(v -> limpiarCampos());
 
@@ -68,29 +65,23 @@ public class GestionUsuarios extends BaseActivity {
     }
 
     private void cargarUsuarios() {
-        listaUsuarios.clear();
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor cursor = db.query(DBHelper.TABLA_USUARIO, null, null, null, null, null, "nombre ASC");
+        ApiClient.getApiService().obtenerUsuarios().enqueue(new Callback<List<Usuario>>() {
+            @Override
+            public void onResponse(Call<List<Usuario>> call, Response<List<Usuario>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    listaUsuarios.clear();
+                    listaUsuarios.addAll(response.body());
+                    adapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(GestionUsuarios.this, "Error al cargar usuarios", Toast.LENGTH_SHORT).show();
+                }
+            }
 
-        int idUsuarioIndex = cursor.getColumnIndexOrThrow("idUsuario");
-        int nombreIndex = cursor.getColumnIndexOrThrow("nombre");
-        int emailIndex = cursor.getColumnIndexOrThrow("email");
-        int passwordIndex = cursor.getColumnIndexOrThrow("password");
-        int rolIndex = cursor.getColumnIndexOrThrow("rol");
-
-        while (cursor.moveToNext()) {
-            Usuario usuario = new Usuario();
-            usuario.setIdUsuario(cursor.getInt(idUsuarioIndex));
-            usuario.setNombre(cursor.getString(nombreIndex));
-            usuario.setEmail(cursor.getString(emailIndex));
-            usuario.setPassword(cursor.getString(passwordIndex));
-            usuario.setRol(cursor.getString(rolIndex));
-            listaUsuarios.add(usuario);
-        }
-
-        cursor.close();
-        db.close();
-        adapter.notifyDataSetChanged();
+            @Override
+            public void onFailure(Call<List<Usuario>> call, Throwable t) {
+                Toast.makeText(GestionUsuarios.this, "Error de conexión: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void guardarUsuario() {
@@ -104,31 +95,49 @@ public class GestionUsuarios extends BaseActivity {
             return;
         }
 
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        ContentValues valores = new ContentValues();
-        valores.put("nombre", nombre);
-        valores.put("email", email);
-        valores.put("password", password);
-        valores.put("rol", rol);
+        Usuario usuario = new Usuario();
+        usuario.setNombre(nombre);
+        usuario.setEmail(email);
+        usuario.setPassword(password);
+        usuario.setRol(rol);
 
-        long resultado;
         if (usuarioEditandoId == null) {
-            resultado = db.insert(DBHelper.TABLA_USUARIO, null, valores);
-        } else {
-            resultado = db.update(DBHelper.TABLA_USUARIO, valores,
-                "idUsuario = ?", new String[]{usuarioEditandoId.toString()});
-        }
+            ApiClient.getApiService().registrarUsuario(usuario).enqueue(new Callback<Usuario>() {
+                @Override
+                public void onResponse(Call<Usuario> call, Response<Usuario> response) {
+                    if (response.isSuccessful() && response.body() != null) {
+                        Toast.makeText(GestionUsuarios.this, "Usuario registrado exitosamente", Toast.LENGTH_SHORT).show();
+                        limpiarCampos();
+                        cargarUsuarios();
+                    } else {
+                        Toast.makeText(GestionUsuarios.this, "Error al registrar usuario", Toast.LENGTH_SHORT).show();
+                    }
+                }
 
-        db.close();
-
-        if (resultado != -1) {
-            Toast.makeText(this, usuarioEditandoId == null ?
-                "Usuario registrado exitosamente" : "Usuario actualizado exitosamente",
-                Toast.LENGTH_SHORT).show();
-            limpiarCampos();
-            cargarUsuarios();
+                @Override
+                public void onFailure(Call<Usuario> call, Throwable t) {
+                    Toast.makeText(GestionUsuarios.this, "Error de conexión: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
         } else {
-            Toast.makeText(this, "Error al guardar usuario", Toast.LENGTH_SHORT).show();
+            usuario.setIdUsuario(usuarioEditandoId);
+            ApiClient.getApiService().actualizarUsuario(usuarioEditandoId, usuario).enqueue(new Callback<Usuario>() {
+                @Override
+                public void onResponse(Call<Usuario> call, Response<Usuario> response) {
+                    if (response.isSuccessful() && response.body() != null) {
+                        Toast.makeText(GestionUsuarios.this, "Usuario actualizado exitosamente", Toast.LENGTH_SHORT).show();
+                        limpiarCampos();
+                        cargarUsuarios();
+                    } else {
+                        Toast.makeText(GestionUsuarios.this, "Error al actualizar usuario", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Usuario> call, Throwable t) {
+                    Toast.makeText(GestionUsuarios.this, "Error de conexión: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     }
 
@@ -137,7 +146,6 @@ public class GestionUsuarios extends BaseActivity {
         etNombre.setText(usuario.getNombre());
         etEmail.setText(usuario.getEmail());
         etPassword.setText(usuario.getPassword());
-        // Encontrar y seleccionar el rol en el spinner
         String[] roles = getResources().getStringArray(R.array.roles_usuario);
         for (int i = 0; i < roles.length; i++) {
             if (roles[i].equals(usuario.getRol())) {
@@ -153,19 +161,22 @@ public class GestionUsuarios extends BaseActivity {
             .setTitle("Confirmar eliminación")
             .setMessage("¿Estás seguro de que deseas eliminar este usuario?")
             .setPositiveButton("Sí", (dialog, which) -> {
-                SQLiteDatabase db = dbHelper.getWritableDatabase();
-                int resultado = db.delete(DBHelper.TABLA_USUARIO,
-                    "idUsuario = ?", new String[]{String.valueOf(usuario.getIdUsuario())});
-                db.close();
+                ApiClient.getApiService().eliminarUsuario(usuario.getIdUsuario()).enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        if (response.isSuccessful()) {
+                            Toast.makeText(GestionUsuarios.this, "Usuario eliminado exitosamente", Toast.LENGTH_SHORT).show();
+                            cargarUsuarios();
+                        } else {
+                            Toast.makeText(GestionUsuarios.this, "Error al eliminar usuario", Toast.LENGTH_SHORT).show();
+                        }
+                    }
 
-                if (resultado > 0) {
-                    Toast.makeText(this, "Usuario eliminado exitosamente",
-                        Toast.LENGTH_SHORT).show();
-                    cargarUsuarios();
-                } else {
-                    Toast.makeText(this, "Error al eliminar usuario",
-                        Toast.LENGTH_SHORT).show();
-                }
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        Toast.makeText(GestionUsuarios.this, "Error de conexión: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
             })
             .setNegativeButton("No", null)
             .show();
