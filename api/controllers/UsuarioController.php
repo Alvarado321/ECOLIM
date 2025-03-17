@@ -71,7 +71,7 @@ class UsuarioController {
         }
 
         if(count($usuarios) > 0) {
-            return $this->response->success("Usuarios encontrados", $usuarios);
+            return $this->response->success($usuarios, "Usuarios encontrados");
         }
         return $this->response->error("No se encontraron usuarios");
     }
@@ -86,7 +86,7 @@ class UsuarioController {
                 "email" => $this->usuario->email,
                 "rol" => $this->usuario->rol
             );
-            return $this->response->success("Usuario encontrado", $usuario);
+            return $this->response->success($usuario, "Usuario encontrado");
         }
         return $this->response->error("Usuario no encontrado");
     }
@@ -106,8 +106,28 @@ class UsuarioController {
                 "email" => $this->usuario->email,
                 "rol" => $this->usuario->rol
             );
-            return $this->response->success("Login exitoso", $usuario);
+            return $this->response->success($usuario, "Login exitoso");
         }
         return $this->response->error("Credenciales inválidas");
+    }
+
+    public function search($keyword) {
+        $stmt = $this->usuario->search($keyword);
+        $usuarios = [];
+
+        while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $usuario = array(
+                "idUsuario" => $row['idUsuario'],
+                "nombre" => $row['nombre'],
+                "email" => $row['email'],
+                "rol" => $row['rol']
+            );
+            array_push($usuarios, $usuario);
+        }
+
+        if(count($usuarios) > 0) {
+            return $this->response->success($usuarios, "Usuarios encontrados");
+        }
+        return $this->response->error("No se encontraron usuarios");
     }
 }

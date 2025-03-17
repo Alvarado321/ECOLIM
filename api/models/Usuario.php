@@ -130,4 +130,16 @@ class Usuario {
         }
         return false;
     }
+
+    public function search($keyword) {
+        $query = "SELECT * FROM " . $this->table . " WHERE nombre LIKE ? OR email LIKE ?";
+        $stmt = $this->conn->prepare($query);
+        
+        $keyword = "%{$keyword}%";
+        $stmt->bindParam(1, $keyword);
+        $stmt->bindParam(2, $keyword);
+        
+        $stmt->execute();
+        return $stmt;
+    }
 }

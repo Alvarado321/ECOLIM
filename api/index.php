@@ -33,7 +33,12 @@ try {
         case 'usuarios':
             switch($request_method) {
                 case 'GET':
-                    echo $id ? $usuarioController->getOne($id) : $usuarioController->getAll();
+                    if(isset($path_parts[3]) && $path_parts[3] === 'search') {
+                        $keyword = isset($_GET['query']) ? $_GET['query'] : '';
+                        echo $usuarioController->search($keyword);
+                    } else {
+                        echo $id ? $usuarioController->getOne($id) : $usuarioController->getAll();
+                    }
                     break;
                 case 'POST':
                     if(isset($path_parts[3]) && $path_parts[3] === 'login') {

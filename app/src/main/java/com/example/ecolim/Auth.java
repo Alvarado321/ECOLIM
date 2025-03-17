@@ -9,8 +9,8 @@ import android.widget.Spinner;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.ecolim.api.ApiClient;
-import com.example.ecolim.api.LoginRequest;
-import com.example.ecolim.api.LoginResponse;
+import com.example.ecolim.api.requests.LoginRequest;
+import com.example.ecolim.api.responses.LoginResponse;
 import com.example.ecolim.models.Usuario;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -85,7 +85,7 @@ public class Auth extends AppCompatActivity {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 if (response.isSuccessful() && response.body() != null && "success".equals(response.body().getStatus())) {
-                    Usuario usuario = response.body().getUsuario();
+                    Usuario usuario = response.body().getData();
 
                     SharedPreferences.Editor editor = getSharedPreferences("UserData", MODE_PRIVATE).edit();
                     editor.putString("loggedUserEmail", email);

@@ -3,6 +3,7 @@ package com.example.ecolim;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.ecolim.adapters.UsuariosAdapter;
 import com.example.ecolim.api.ApiClient;
+import com.example.ecolim.api.responses.ListaUsuariosResponse;
 import com.example.ecolim.menu.BaseActivity;
 import com.example.ecolim.models.Usuario;
 import java.util.ArrayList;
@@ -23,6 +25,7 @@ public class GestionUsuarios extends BaseActivity {
     private Spinner spRol;
     private Button btnGuardar, btnLimpiar;
     private RecyclerView rvUsuarios;
+    private SearchView searchView;
     private UsuariosAdapter adapter;
     private List<Usuario> listaUsuarios;
     private Integer usuarioEditandoId = null;
@@ -40,6 +43,7 @@ public class GestionUsuarios extends BaseActivity {
         btnGuardar = findViewById(R.id.btnGuardar);
         btnLimpiar = findViewById(R.id.btnLimpiar);
         rvUsuarios = findViewById(R.id.rvUsuarios);
+        searchView = findViewById(R.id.searchView);
 
         listaUsuarios = new ArrayList<>();
         adapter = new UsuariosAdapter(this, listaUsuarios);
@@ -61,25 +65,72 @@ public class GestionUsuarios extends BaseActivity {
             }
         });
 
+        // Configurar búsqueda
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                buscarUsuarios(query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (newText.isEmpty()) {
+                    cargarUsuarios();
+                }
+                return true;
+            }
+        });
+
         cargarUsuarios();
     }
 
     private void cargarUsuarios() {
-        ApiClient.getApiService().obtenerUsuarios().enqueue(new Callback<List<Usuario>>() {
+        ApiClient.getApiService().obtenerUsuarios().enqueue(new Callback<ListaUsuariosResponse>() {
             @Override
-            public void onResponse(Call<List<Usuario>> call, Response<List<Usuario>> response) {
+            public void onResponse(Call<ListaUsuariosResponse> call, Response<ListaUsuariosResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    listaUsuarios.clear();
-                    listaUsuarios.addAll(response.body());
-                    adapter.notifyDataSetChanged();
+                    ListaUsuariosResponse usuariosResponse = response.body();
+                    if ("success".equals(usuariosResponse.getStatus()) && usuariosResponse.getData() != null) {
+                        listaUsuarios.clear();
+                        listaUsuarios.addAll(usuariosResponse.getData());
+                        adapter.notifyDataSetChanged();
+                    } else {
+                        Toast.makeText(GestionUsuarios.this, usuariosResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
                 } else {
                     Toast.makeText(GestionUsuarios.this, "Error al cargar usuarios", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<List<Usuario>> call, Throwable t) {
+            public void onFailure(Call<ListaUsuariosResponse> call, Throwable t) {
                 Toast.makeText(GestionUsuarios.this, "Error de conexión: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void buscarUsuarios(String query) {
+        ApiClient.getApiService().buscarUsuarios(query).enqueue(new Callback<ListaUsuariosResponse>() {
+            @Override
+            public void onResponse(Call<ListaUsuariosResponse> call, Response<ListaUsuariosResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    ListaUsuariosResponse usuariosResponse = response.body();
+                    if ("success".equals(usuariosResponse.getStatus()) && usuariosResponse.getData() != null) {
+                        listaUsuarios.clear();
+                        listaUsuarios.addAll(usuariosResponse.getData());
+                        adapter.notifyDataSetChanged();
+                    } else {
+                        Toast.makeText(GestionUsuarios.this, usuariosResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(GestionUsuarios.this, "No se encontraron resultados", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ListaUsuariosResponse> call, Throwable t) {
+                Toast.makeText(GestionUsuarios.this, "Error de búsqueda: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -145,7 +196,7 @@ public class GestionUsuarios extends BaseActivity {
         usuarioEditandoId = usuario.getIdUsuario();
         etNombre.setText(usuario.getNombre());
         etEmail.setText(usuario.getEmail());
-        etPassword.setText(usuario.getPassword());
+        etPassword.setText("");
         String[] roles = getResources().getStringArray(R.array.roles_usuario);
         for (int i = 0; i < roles.length; i++) {
             if (roles[i].equals(usuario.getRol())) {

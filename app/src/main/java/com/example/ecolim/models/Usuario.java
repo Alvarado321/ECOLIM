@@ -1,10 +1,21 @@
 package com.example.ecolim.models;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Usuario {
+    @SerializedName("idUsuario")
     private int idUsuario;
+    
+    @SerializedName("nombre")
     private String nombre;
+    
+    @SerializedName("email")
     private String email;
+    
+    @SerializedName("password")
     private String password;
+    
+    @SerializedName("rol")
     private String rol; // Para distinguir diferentes tipos de usuarios
 
     public Usuario() {
