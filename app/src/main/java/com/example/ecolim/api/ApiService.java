@@ -1,16 +1,16 @@
 package com.example.ecolim.api;
 
-import com.example.ecolim.models.Usuario;
+import com.example.ecolim.models.UsuarioModel;
 import com.example.ecolim.api.responses.ListaUsuariosResponse;
 import com.example.ecolim.api.responses.LoginResponse;
 import com.example.ecolim.api.requests.LoginRequest;
-import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.http.*;
 
 public interface ApiService {
     @POST("usuarios")
-    Call<Usuario> registrarUsuario(@Body Usuario usuario);
+    Call<UsuarioModel> registrarUsuario(@Body UsuarioModel usuario);
 
     @GET("usuarios")
     Call<ListaUsuariosResponse> obtenerUsuarios();
@@ -19,7 +19,7 @@ public interface ApiService {
     Call<ListaUsuariosResponse> buscarUsuarios(@Query("query") String query);
 
     @PUT("usuarios/{id}")
-    Call<Usuario> actualizarUsuario(@Path("id") int id, @Body Usuario usuario);
+    Call<UsuarioModel> actualizarUsuario(@Path("id") int id, @Body UsuarioModel usuario);
 
     @DELETE("usuarios/{id}")
     Call<Void> eliminarUsuario(@Path("id") int id);

@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.ecolim.api.ApiClient;
 import com.example.ecolim.api.requests.LoginRequest;
 import com.example.ecolim.api.responses.LoginResponse;
-import com.example.ecolim.models.Usuario;
+import com.example.ecolim.models.UsuarioModel;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -47,15 +47,15 @@ public class Auth extends AppCompatActivity {
             return;
         }
 
-        Usuario nuevoUsuario = new Usuario();
+        UsuarioModel nuevoUsuario = new UsuarioModel();
         nuevoUsuario.setNombre(nombre);
         nuevoUsuario.setEmail(email);
         nuevoUsuario.setPassword(password);
         nuevoUsuario.setRol("Usuario"); // Rol por defecto
 
-        ApiClient.getApiService().registrarUsuario(nuevoUsuario).enqueue(new Callback<Usuario>() {
+        ApiClient.getApiService().registrarUsuario(nuevoUsuario).enqueue(new Callback<UsuarioModel>() {
             @Override
-            public void onResponse(Call<Usuario> call, Response<Usuario> response) {
+            public void onResponse(Call<UsuarioModel> call, Response<UsuarioModel> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     Toast.makeText(Auth.this, "Usuario registrado exitosamente", Toast.LENGTH_SHORT).show();
                     limpiarCampos();
@@ -65,7 +65,7 @@ public class Auth extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<Usuario> call, Throwable t) {
+            public void onFailure(Call<UsuarioModel> call, Throwable t) {
                 Toast.makeText(Auth.this, "Error de conexión: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -85,7 +85,7 @@ public class Auth extends AppCompatActivity {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 if (response.isSuccessful() && response.body() != null && "success".equals(response.body().getStatus())) {
-                    Usuario usuario = response.body().getData();
+                    UsuarioModel usuario = response.body().getData();
 
                     SharedPreferences.Editor editor = getSharedPreferences("UserData", MODE_PRIVATE).edit();
                     editor.putString("loggedUserEmail", email);

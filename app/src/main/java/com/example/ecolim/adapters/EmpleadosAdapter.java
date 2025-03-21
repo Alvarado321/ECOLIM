@@ -9,21 +9,21 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.ecolim.R;
-import com.example.ecolim.models.Empleado;
+import com.example.ecolim.models.EmpleadoModel;
 import java.util.List;
 
 public class EmpleadosAdapter extends RecyclerView.Adapter<EmpleadosAdapter.EmpleadoViewHolder> {
     private Context context;
-    private List<Empleado> listaEmpleados;
+    private List<EmpleadoModel> listaEmpleados;
     private OnEmpleadoListener onEmpleadoListener;
 
     public interface OnEmpleadoListener {
-        void onEditClick(Empleado empleado);
-        void onDeleteClick(Empleado empleado);
-        void onToggleActivoClick(Empleado empleado);
+        void onEditClick(EmpleadoModel empleado);
+        void onDeleteClick(EmpleadoModel empleado);
+        void onToggleActivoClick(EmpleadoModel empleado);
     }
 
-    public EmpleadosAdapter(Context context, List<Empleado> listaEmpleados) {
+    public EmpleadosAdapter(Context context, List<EmpleadoModel> listaEmpleados) {
         this.context = context;
         this.listaEmpleados = listaEmpleados;
     }
@@ -41,7 +41,7 @@ public class EmpleadosAdapter extends RecyclerView.Adapter<EmpleadosAdapter.Empl
 
     @Override
     public void onBindViewHolder(@NonNull EmpleadoViewHolder holder, int position) {
-        Empleado empleado = listaEmpleados.get(position);
+        EmpleadoModel empleado = listaEmpleados.get(position);
         holder.tvNombre.setText(empleado.getNombre());
         holder.tvEmail.setText(empleado.getEmail());
         holder.tvCargo.setText(empleado.getCargo());
@@ -76,7 +76,7 @@ public class EmpleadosAdapter extends RecyclerView.Adapter<EmpleadosAdapter.Empl
         return listaEmpleados.size();
     }
 
-    public void actualizarLista(List<Empleado> nuevaLista) {
+    public void actualizarLista(List<EmpleadoModel> nuevaLista) {
         this.listaEmpleados = nuevaLista;
         notifyDataSetChanged();
     }

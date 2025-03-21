@@ -7,14 +7,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.ecolim.R;
-import com.example.ecolim.models.RegistroResiduo;
+import com.example.ecolim.models.ResiduoModel;
 import java.util.List;
 
 public class RegistroResiduoAdapter extends RecyclerView.Adapter<RegistroResiduoAdapter.ViewHolder> {
 
-    private List<RegistroResiduo> listaRegistros;
+    private List<ResiduoModel> listaRegistros;
 
-    public RegistroResiduoAdapter(List<RegistroResiduo> listaRegistros) {
+    public RegistroResiduoAdapter(List<ResiduoModel> listaRegistros) {
         this.listaRegistros = listaRegistros;
     }
 
@@ -28,7 +28,7 @@ public class RegistroResiduoAdapter extends RecyclerView.Adapter<RegistroResiduo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        RegistroResiduo registro = listaRegistros.get(position);
+        ResiduoModel registro = listaRegistros.get(position);
         holder.txtEmpleadoResiduo.setText(registro.empleado);
         holder.txtTipoResiduo.setText("Tipo: " + registro.tipoResiduo);
         holder.txtCantidadFechaResiduo.setText("Cantidad: " + registro.cantidad + " kg | Fecha: " + registro.fechaRegistro);
@@ -40,7 +40,7 @@ public class RegistroResiduoAdapter extends RecyclerView.Adapter<RegistroResiduo
         return listaRegistros.size();
     }
 
-    public void setData(List<RegistroResiduo> nuevaLista) {
+    public void setData(List<ResiduoModel> nuevaLista) {
         this.listaRegistros.clear();
         this.listaRegistros.addAll(nuevaLista);
         notifyDataSetChanged();

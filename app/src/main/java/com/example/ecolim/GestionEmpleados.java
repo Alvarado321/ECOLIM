@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.ecolim.adapters.EmpleadosAdapter;
 import com.example.ecolim.helpers.DBHelper;
 import com.example.ecolim.menu.BaseActivity;
-import com.example.ecolim.models.Empleado;
+import com.example.ecolim.models.EmpleadoModel;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +22,7 @@ public class GestionEmpleados extends BaseActivity implements EmpleadosAdapter.O
     private Button btnGuardar, btnLimpiar;
     private RecyclerView rvEmpleados;
     private EmpleadosAdapter adapter;
-    private List<Empleado> listaEmpleados;
+    private List<EmpleadoModel> listaEmpleados;
     private DBHelper dbHelper;
     private Integer empleadoEditandoId = null;
 
@@ -68,7 +68,7 @@ public class GestionEmpleados extends BaseActivity implements EmpleadosAdapter.O
         int activoIndex = cursor.getColumnIndexOrThrow("activo");
 
         while (cursor.moveToNext()) {
-            Empleado empleado = new Empleado();
+            EmpleadoModel empleado = new EmpleadoModel();
             empleado.setIdEmpleado(cursor.getInt(idEmpleadoIndex));
             empleado.setNombre(cursor.getString(nombreIndex));
             empleado.setEmail(cursor.getString(emailIndex));
@@ -135,7 +135,7 @@ public class GestionEmpleados extends BaseActivity implements EmpleadosAdapter.O
     }
 
     @Override
-    public void onEditClick(Empleado empleado) {
+    public void onEditClick(EmpleadoModel empleado) {
         empleadoEditandoId = empleado.getIdEmpleado();
         etNombre.setText(empleado.getNombre());
         etEmail.setText(empleado.getEmail());
@@ -145,7 +145,7 @@ public class GestionEmpleados extends BaseActivity implements EmpleadosAdapter.O
     }
 
     @Override
-    public void onDeleteClick(Empleado empleado) {
+    public void onDeleteClick(EmpleadoModel empleado) {
         new AlertDialog.Builder(this)
             .setTitle("Confirmar eliminación")
             .setMessage("¿Estás seguro de que deseas eliminar este empleado?")
@@ -169,7 +169,7 @@ public class GestionEmpleados extends BaseActivity implements EmpleadosAdapter.O
     }
 
     @Override
-    public void onToggleActivoClick(Empleado empleado) {
+    public void onToggleActivoClick(EmpleadoModel empleado) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues valores = new ContentValues();
         valores.put("activo", empleado.isActivo() ? 0 : 1);

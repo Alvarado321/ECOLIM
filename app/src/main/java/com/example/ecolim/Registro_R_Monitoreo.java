@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.ecolim.adapters.RegistroResiduoAdapter;
 import com.example.ecolim.helpers.ResiduoDAO;
 import com.example.ecolim.menu.BaseActivity;
-import com.example.ecolim.models.RegistroResiduo;
+import com.example.ecolim.models.ResiduoModel;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,8 +20,8 @@ public class Registro_R_Monitoreo extends BaseActivity {
     private SearchView etBuscar;
     TextView txtTotalRegistros, txtCantidadTotal, txtResiduoComun;
 
-    List<RegistroResiduo> listaRegistros;
-    List<RegistroResiduo> listaFiltrada;
+    List<ResiduoModel> listaRegistros;
+    List<ResiduoModel> listaFiltrada;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,11 +71,11 @@ public class Registro_R_Monitoreo extends BaseActivity {
     }
 
     void filtrarDatos(String query) {
-        List<RegistroResiduo> listaTemporal = new ArrayList<>();
+        List<ResiduoModel> listaTemporal = new ArrayList<>();
         if (query.isEmpty()) {
             listaTemporal.addAll(listaRegistros);
         } else {
-            for (RegistroResiduo registro : listaRegistros) {
+            for (ResiduoModel registro : listaRegistros) {
                 if (registro.empleado.toLowerCase().contains(query.toLowerCase()) ||
                         registro.tipoResiduo.toLowerCase().contains(query.toLowerCase()) ||
                         String.valueOf(registro.cantidad).contains(query) ||

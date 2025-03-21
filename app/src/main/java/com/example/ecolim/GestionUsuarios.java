@@ -13,7 +13,7 @@ import com.example.ecolim.adapters.UsuariosAdapter;
 import com.example.ecolim.api.ApiClient;
 import com.example.ecolim.api.responses.ListaUsuariosResponse;
 import com.example.ecolim.menu.BaseActivity;
-import com.example.ecolim.models.Usuario;
+import com.example.ecolim.models.UsuarioModel;
 import java.util.ArrayList;
 import java.util.List;
 import retrofit2.Call;
@@ -27,7 +27,7 @@ public class GestionUsuarios extends BaseActivity {
     private RecyclerView rvUsuarios;
     private SearchView searchView;
     private UsuariosAdapter adapter;
-    private List<Usuario> listaUsuarios;
+    private List<UsuarioModel> listaUsuarios;
     private Integer usuarioEditandoId = null;
 
     @Override
@@ -55,12 +55,12 @@ public class GestionUsuarios extends BaseActivity {
 
         adapter.setOnUsuarioListener(new UsuariosAdapter.OnUsuarioListener() {
             @Override
-            public void onEditClick(Usuario usuario) {
+            public void onEditClick(UsuarioModel usuario) {
                 editarUsuario(usuario);
             }
 
             @Override
-            public void onDeleteClick(Usuario usuario) {
+            public void onDeleteClick(UsuarioModel usuario) {
                 confirmarEliminarUsuario(usuario);
             }
         });
@@ -146,16 +146,16 @@ public class GestionUsuarios extends BaseActivity {
             return;
         }
 
-        Usuario usuario = new Usuario();
+        UsuarioModel usuario = new UsuarioModel();
         usuario.setNombre(nombre);
         usuario.setEmail(email);
         usuario.setPassword(password);
         usuario.setRol(rol);
 
         if (usuarioEditandoId == null) {
-            ApiClient.getApiService().registrarUsuario(usuario).enqueue(new Callback<Usuario>() {
+            ApiClient.getApiService().registrarUsuario(usuario).enqueue(new Callback<UsuarioModel>() {
                 @Override
-                public void onResponse(Call<Usuario> call, Response<Usuario> response) {
+                public void onResponse(Call<UsuarioModel> call, Response<UsuarioModel> response) {
                     if (response.isSuccessful() && response.body() != null) {
                         Toast.makeText(GestionUsuarios.this, "Usuario registrado exitosamente", Toast.LENGTH_SHORT).show();
                         limpiarCampos();
@@ -166,15 +166,15 @@ public class GestionUsuarios extends BaseActivity {
                 }
 
                 @Override
-                public void onFailure(Call<Usuario> call, Throwable t) {
+                public void onFailure(Call<UsuarioModel> call, Throwable t) {
                     Toast.makeText(GestionUsuarios.this, "Error de conexión: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
         } else {
             usuario.setIdUsuario(usuarioEditandoId);
-            ApiClient.getApiService().actualizarUsuario(usuarioEditandoId, usuario).enqueue(new Callback<Usuario>() {
+            ApiClient.getApiService().actualizarUsuario(usuarioEditandoId, usuario).enqueue(new Callback<UsuarioModel>() {
                 @Override
-                public void onResponse(Call<Usuario> call, Response<Usuario> response) {
+                public void onResponse(Call<UsuarioModel> call, Response<UsuarioModel> response) {
                     if (response.isSuccessful() && response.body() != null) {
                         Toast.makeText(GestionUsuarios.this, "Usuario actualizado exitosamente", Toast.LENGTH_SHORT).show();
                         limpiarCampos();
@@ -185,14 +185,14 @@ public class GestionUsuarios extends BaseActivity {
                 }
 
                 @Override
-                public void onFailure(Call<Usuario> call, Throwable t) {
+                public void onFailure(Call<UsuarioModel> call, Throwable t) {
                     Toast.makeText(GestionUsuarios.this, "Error de conexión: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
         }
     }
 
-    private void editarUsuario(Usuario usuario) {
+    private void editarUsuario(UsuarioModel usuario) {
         usuarioEditandoId = usuario.getIdUsuario();
         etNombre.setText(usuario.getNombre());
         etEmail.setText(usuario.getEmail());
@@ -207,7 +207,7 @@ public class GestionUsuarios extends BaseActivity {
         btnGuardar.setText("Actualizar");
     }
 
-    private void confirmarEliminarUsuario(Usuario usuario) {
+    private void confirmarEliminarUsuario(UsuarioModel usuario) {
         new AlertDialog.Builder(this)
             .setTitle("Confirmar eliminación")
             .setMessage("¿Estás seguro de que deseas eliminar este usuario?")

@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.ecolim.helpers.ResiduoDAO;
 import com.example.ecolim.menu.BaseActivity;
-import com.example.ecolim.models.ReporteResiduo;
+import com.example.ecolim.models.ReporteModel;
 import com.example.ecolim.adapters.ReporteResiduoAdapter;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -77,7 +77,7 @@ public class Registro_R_Reportes extends BaseActivity {
     }
 
     void cargarReporteInicial() {
-        List<ReporteResiduo> lista = residuoDAO.obtenerReportePorTipo();
+        List<ReporteModel> lista = residuoDAO.obtenerReportePorTipo();
         actualizarReporte(lista);
     }
 
@@ -112,16 +112,16 @@ public class Registro_R_Reportes extends BaseActivity {
     }
 
     void cargarReportePorFechas() {
-        List<ReporteResiduo> lista = residuoDAO.obtenerReportesPorFecha(fechaInicio, fechaFin);
+        List<ReporteModel> lista = residuoDAO.obtenerReportesPorFecha(fechaInicio, fechaFin);
         actualizarReporte(lista);
     }
 
-    void actualizarReporte(List<ReporteResiduo> lista) {
+    void actualizarReporte(List<ReporteModel> lista) {
         adapter.actualizarDatos(lista);
         cargarGrafico(lista);
     }
 
-    void cargarGrafico(List<ReporteResiduo> lista) {
+    void cargarGrafico(List<ReporteModel> lista) {
         barChart.clear();
 
         if (lista.isEmpty()) {
@@ -133,7 +133,7 @@ public class Registro_R_Reportes extends BaseActivity {
         List<String> labels = new ArrayList<>();
 
         int index = 0;
-        for (ReporteResiduo item : lista) {
+        for (ReporteModel item : lista) {
             if (item.cantidadTotal > 0) {
                 entries.add(new BarEntry(index, (float) item.cantidadTotal));
                 labels.add(item.tipoResiduo);
@@ -169,7 +169,7 @@ public class Registro_R_Reportes extends BaseActivity {
     }
 
     private void exportarReportePDF() {
-        List<ReporteResiduo> datos;
+        List<ReporteModel> datos;
 
         if (fechaInicio != null && fechaFin != null) {
             datos = residuoDAO.obtenerReportesPorFecha(fechaInicio, fechaFin);
@@ -187,7 +187,7 @@ public class Registro_R_Reportes extends BaseActivity {
         generarPDF(datos, nombreArchivo);
     }
 
-    private void generarPDF(List<ReporteResiduo> datos, String nombreArchivo) {
+    private void generarPDF(List<ReporteModel> datos, String nombreArchivo) {
         PdfDocument documento = new PdfDocument();
         PdfDocument.PageInfo paginaInfo = new PdfDocument.PageInfo.Builder(595, 842, 1).create();
         PdfDocument.Page pagina = documento.startPage(paginaInfo);
@@ -206,7 +206,7 @@ public class Registro_R_Reportes extends BaseActivity {
         canvas.drawText("Cantidad (kg)", 400, y, paint);
         y += 20;
 
-        for (ReporteResiduo item : datos) {
+        for (ReporteModel item : datos) {
             canvas.drawText(item.tipoResiduo, 50, y, paint);
             canvas.drawText(String.format("%.2f", item.cantidadTotal), 400, y, paint);
             y += 15;

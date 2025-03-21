@@ -7,14 +7,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.ecolim.R;
-import com.example.ecolim.models.ReporteResiduo;
+import com.example.ecolim.models.ReporteModel;
 import java.util.List;
 
 public class ReporteResiduoAdapter extends RecyclerView.Adapter<ReporteResiduoAdapter.ViewHolder> {
 
-    private List<ReporteResiduo> listaReportes;
+    private List<ReporteModel> listaReportes;
 
-    public ReporteResiduoAdapter(List<ReporteResiduo> listaReportes) {
+    public ReporteResiduoAdapter(List<ReporteModel> listaReportes) {
         this.listaReportes = listaReportes;
     }
 
@@ -28,7 +28,7 @@ public class ReporteResiduoAdapter extends RecyclerView.Adapter<ReporteResiduoAd
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        ReporteResiduo reporte = listaReportes.get(position);
+        ReporteModel reporte = listaReportes.get(position);
         holder.txtTipoResiduo.setText(reporte.tipoResiduo);
         holder.txtCantidadResiduo.setText(String.format("%.2f kg", reporte.cantidadTotal));
     }
@@ -38,7 +38,7 @@ public class ReporteResiduoAdapter extends RecyclerView.Adapter<ReporteResiduoAd
         return listaReportes.size();
     }
 
-    public void actualizarDatos(List<ReporteResiduo> nuevaLista) {
+    public void actualizarDatos(List<ReporteModel> nuevaLista) {
         this.listaReportes.clear();
         this.listaReportes.addAll(nuevaLista);
         notifyDataSetChanged();

@@ -1,6 +1,6 @@
 package com.example.ecolim.api.responses;
 
-import com.example.ecolim.models.Usuario;
+import com.example.ecolim.models.UsuarioModel;
 import com.google.gson.annotations.SerializedName;
 
 public class LoginResponse {
@@ -11,7 +11,7 @@ public class LoginResponse {
     private String message;
     
     @SerializedName("data")
-    private Usuario data;
+    private UsuarioModel data;
 
     public String getStatus() {
         return status;
@@ -29,11 +29,11 @@ public class LoginResponse {
         this.message = message;
     }
 
-    public Usuario getData() {
+    public UsuarioModel getData() {
         return data;
     }
 
-    public void setData(Usuario data) {
+    public void setData(UsuarioModel data) {
         this.data = data;
     }
 }

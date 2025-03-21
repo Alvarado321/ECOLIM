@@ -1,6 +1,6 @@
 package com.example.ecolim.models;
 
-public class Empleado {
+public class EmpleadoModel {
     private int idEmpleado;
     private String nombre;
     private String email;
@@ -8,10 +8,10 @@ public class Empleado {
     private String departamento;
     private boolean activo;
 
-    public Empleado() {
+    public EmpleadoModel() {
     }
 
-    public Empleado(int idEmpleado, String nombre, String email, String cargo, String departamento, boolean activo) {
+    public EmpleadoModel(int idEmpleado, String nombre, String email, String cargo, String departamento, boolean activo) {
         this.idEmpleado = idEmpleado;
         this.nombre = nombre;
         this.email = email;

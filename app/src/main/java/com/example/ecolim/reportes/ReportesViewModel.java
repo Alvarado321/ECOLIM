@@ -3,7 +3,7 @@ package com.example.ecolim.reportes;
 import androidx.lifecycle.ViewModel;
 import android.content.Context;
 import com.example.ecolim.helpers.ResiduoDAO;
-import com.example.ecolim.models.ReporteResiduo;
+import com.example.ecolim.models.ReporteModel;
 import java.util.List;
 
 public class ReportesViewModel extends ViewModel {
@@ -14,7 +14,7 @@ public class ReportesViewModel extends ViewModel {
         residuoDAO = new ResiduoDAO(context);
     }
 
-    public List<ReporteResiduo> getReportePorTipo() {
+    public List<ReporteModel> getReportePorTipo() {
         return residuoDAO.obtenerReportePorTipo();
     }
 }

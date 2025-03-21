@@ -9,20 +9,20 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.ecolim.R;
-import com.example.ecolim.models.Usuario;
+import com.example.ecolim.models.UsuarioModel;
 import java.util.List;
 
 public class UsuariosAdapter extends RecyclerView.Adapter<UsuariosAdapter.UsuarioViewHolder> {
     private Context context;
-    private List<Usuario> listaUsuarios;
+    private List<UsuarioModel> listaUsuarios;
     private OnUsuarioListener onUsuarioListener;
 
     public interface OnUsuarioListener {
-        void onEditClick(Usuario usuario);
-        void onDeleteClick(Usuario usuario);
+        void onEditClick(UsuarioModel usuario);
+        void onDeleteClick(UsuarioModel usuario);
     }
 
-    public UsuariosAdapter(Context context, List<Usuario> listaUsuarios) {
+    public UsuariosAdapter(Context context, List<UsuarioModel> listaUsuarios) {
         this.context = context;
         this.listaUsuarios = listaUsuarios;
     }
@@ -40,7 +40,7 @@ public class UsuariosAdapter extends RecyclerView.Adapter<UsuariosAdapter.Usuari
 
     @Override
     public void onBindViewHolder(@NonNull UsuarioViewHolder holder, int position) {
-        Usuario usuario = listaUsuarios.get(position);
+        UsuarioModel usuario = listaUsuarios.get(position);
         holder.tvNombre.setText(usuario.getNombre());
         holder.tvEmail.setText(usuario.getEmail());
         holder.tvRol.setText(usuario.getRol());
@@ -63,7 +63,7 @@ public class UsuariosAdapter extends RecyclerView.Adapter<UsuariosAdapter.Usuari
         return listaUsuarios.size();
     }
 
-    public void actualizarLista(List<Usuario> nuevaLista) {
+    public void actualizarLista(List<UsuarioModel> nuevaLista) {
         this.listaUsuarios = nuevaLista;
         notifyDataSetChanged();
     }

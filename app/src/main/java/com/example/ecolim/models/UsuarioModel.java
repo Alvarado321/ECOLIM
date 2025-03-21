@@ -2,7 +2,7 @@ package com.example.ecolim.models;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Usuario {
+public class UsuarioModel {
     @SerializedName("idUsuario")
     private int idUsuario;
     
@@ -18,10 +18,10 @@ public class Usuario {
     @SerializedName("rol")
     private String rol; // Para distinguir diferentes tipos de usuarios
 
-    public Usuario() {
+    public UsuarioModel() {
     }
 
-    public Usuario(int idUsuario, String nombre, String email, String password, String rol) {
+    public UsuarioModel(int idUsuario, String nombre, String email, String password, String rol) {
         this.idUsuario = idUsuario;
         this.nombre = nombre;
         this.email = email;

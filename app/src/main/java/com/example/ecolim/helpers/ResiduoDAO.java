@@ -6,9 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.example.ecolim.Registro_R_Monitoreo;
-import com.example.ecolim.models.RegistroResiduo;
-import com.example.ecolim.models.ReporteResiduo;
+import com.example.ecolim.models.ResiduoModel;
+import com.example.ecolim.models.ReporteModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -117,8 +116,8 @@ public class ResiduoDAO {
         return "Ninguno";
     }
 
-    public List<RegistroResiduo> obtenerTodosRegistros() {
-        List<RegistroResiduo> registros = new ArrayList<>();
+    public List<ResiduoModel> obtenerTodosRegistros() {
+        List<ResiduoModel> registros = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
         String query = "SELECT e.nombre AS nombreEmpleado, \n" +
@@ -134,7 +133,7 @@ public class ResiduoDAO {
         Cursor cursor = db.rawQuery(query, null);
         if (cursor.moveToFirst()) {
             do {
-                registros.add(new RegistroResiduo(
+                registros.add(new ResiduoModel(
                         cursor.getString(cursor.getColumnIndexOrThrow("nombreEmpleado")),
                         cursor.getString(cursor.getColumnIndexOrThrow("nombreResiduo")),
                         cursor.getDouble(cursor.getColumnIndexOrThrow("cantidad")),
@@ -147,8 +146,8 @@ public class ResiduoDAO {
         return registros;
     }
 
-    public List<ReporteResiduo> obtenerReportePorTipo() {
-        List<ReporteResiduo> reportes = new ArrayList<>();
+    public List<ReporteModel> obtenerReportePorTipo() {
+        List<ReporteModel> reportes = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
         String query = "SELECT r.nombre, SUM(rg.cantidad) as cantidadTotal " +
@@ -160,7 +159,7 @@ public class ResiduoDAO {
         Cursor cursor = db.rawQuery(query, null);
         if (cursor.moveToFirst()) {
             do {
-                reportes.add(new ReporteResiduo(
+                reportes.add(new ReporteModel(
                         cursor.getString(cursor.getColumnIndexOrThrow("nombre")),
                         cursor.getDouble(cursor.getColumnIndexOrThrow("cantidadTotal"))
                 ));
@@ -170,9 +169,9 @@ public class ResiduoDAO {
         return reportes;
     }
 
-    public List<ReporteResiduo> obtenerReportesPorFecha(String fechaInicio, String fechaFin) {
+    public List<ReporteModel> obtenerReportesPorFecha(String fechaInicio, String fechaFin) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        List<ReporteResiduo> reportes = new ArrayList<>();
+        List<ReporteModel> reportes = new ArrayList<>();
         Log.e("FECHA REPORTE POR FECHA:", fechaInicio);
         Log.e("FECHA REPORTE POR FECHA:", fechaFin);
 
@@ -188,7 +187,7 @@ public class ResiduoDAO {
 
         if (cursor.moveToFirst()) {
             do {
-                reportes.add(new ReporteResiduo(
+                reportes.add(new ReporteModel(
                         cursor.getString(0),
                         cursor.getDouble(1)
                 ));
